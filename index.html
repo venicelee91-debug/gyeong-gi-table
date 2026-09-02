@@ -1100,7 +1100,7 @@ function renderGroupList(groups, field) {
 
   // Sort bar for list screen
   const sorts = [
-    {key:'m9',label:'8월↓'},{key:'d1',label:'D-1일↓'},{key:'m7',label:'7월↓'},{key:'avg_h1',label:'상반기avg↓'},
+    {key:'m9',label:'9월↓'},{key:'d1',label:'D-1일↓'},{key:'m8',label:'8월↓'},{key:'avg_h1',label:'상반기avg↓'},
     {key:'jindo',label:'진도↓'},{key:'sokdo',label:'속도↓'},
     {key:'par8',label:'인참여↓'},{key:'p58',label:'인5만↓'},{key:'p208',label:'인20만↓'},
   ];
@@ -1310,7 +1310,7 @@ function pctClass(n) {
 
 function renderJisaSortBar() {
   const sorts = [
-    {key:'m9',label:'8월↓'},{key:'d1',label:'D-1일↓'},{key:'m7',label:'7월↓'},{key:'avg_h1',label:'상반기avg↓'},
+    {key:'m9',label:'9월↓'},{key:'d1',label:'D-1일↓'},{key:'m8',label:'8월↓'},{key:'avg_h1',label:'상반기avg↓'},
     {key:'jindo',label:'진도↓'},{key:'sokdo',label:'속도↓'},
     {key:'par8',label:'인참여↓'},{key:'p58',label:'인5만↓'},{key:'p208',label:'인20만↓'},
   ];
@@ -1473,7 +1473,7 @@ function renderBranchDetail(b) {
   const sortedFcs = [...b.fcs].sort((a,z) => {
     let d = 0;
     if (fcSortKey==='m9')    d=(z.m9||0)-(a.m9||0);
-    else if (fcSortKey==='m7')    d=(z.m7||0)-(a.m7||0);
+    else if (fcSortKey==='m8')    d=(z.m8||0)-(a.m8||0);
     else if (fcSortKey==='h1')    d=(((z.m4||0)+(z.m5||0)+(z.m6||0)+(z.m7||0))/4)-(((a.m4||0)+(a.m5||0)+(a.m6||0)+(a.m7||0))/4);
     else if (fcSortKey==='d1')    d=(z.d1||0)-(a.d1||0);
     else if (fcSortKey==='ratio') d=calcRatio(z)-calcRatio(a);
@@ -1481,8 +1481,8 @@ function renderBranchDetail(b) {
   });
   const bIdx = BRANCHES.indexOf(b);
   const fcTabs = [
-    {k:'m9',   lbl:'8월'},
-    {k:'m7',   lbl:'7월'},
+    {k:'m9',   lbl:'9월'},
+    {k:'m8',   lbl:'8월'},
     {k:'d1',   lbl:'D-1일'},
     {k:'h1',   lbl:'직전4개월'},
     {k:'ratio',lbl:'4~7월比'},
@@ -1576,7 +1576,7 @@ function setFcSort(branchIdx, key) {
   const sorted = [...b.fcs].sort((a,z) => {
     let d = 0;
     if (key==='m9')    d=(z.m9||0)-(a.m9||0);
-    else if (key==='m7')    d=(z.m7||0)-(a.m7||0);
+    else if (key==='m8')    d=(z.m8||0)-(a.m8||0);
     else if (key==='h1')    d=(((z.m4||0)+(z.m5||0)+(z.m6||0)+(z.m7||0))/4)-(((a.m4||0)+(a.m5||0)+(a.m6||0)+(a.m7||0))/4);
     else if (key==='d1')    d=(z.d1||0)-(a.d1||0);
     else if (key==='ratio') d=calcRatio(z)-calcRatio(a);
@@ -1701,9 +1701,9 @@ function showFcList(sortKey) {
       });
   _fcSortedAll = baseFcs;
   const sortBtns = [
-    {k:'m9',     label:'8월↓',       type:'normal'},
+    {k:'m9',     label:'9월↓',       type:'normal'},
     {k:'d1',     label:'D-1일↓',     type:'normal'},
-    {k:'m7',     label:'7월↓',       type:'normal'},
+    {k:'m8',     label:'8월↓',       type:'normal'},
     {k:'h1',     label:'4~7월평균↓', type:'normal'},
     {k:'touch',  label:'터치대상',    type:'touch'},
     {k:'p5near', label:'인5만근접',   type:'p5near'},
@@ -2460,7 +2460,7 @@ function filterSmgrBranches(smgrIdx, q) {
   const filtered = m.branches.filter(b =>
     (b.design > 0 || b.amt > 0) && (!lq || b.jisa.toLowerCase().includes(lq))
   ).sort((a, b) => {
-    if (sortKey === 'm7') return (b.m7||0) - (a.m7||0);
+    if (sortKey === 'm8') return (b.m8||0) - (a.m8||0);
     if (sortKey === 'd1') return (b.d1||0) - (a.d1||0);
     if (sortKey === 'q2') return ((b.m4||0)+(b.m5||0)+(b.m6||0)) - ((a.m4||0)+(a.m5||0)+(a.m6||0));
     return (b.amt||0) - (a.amt||0);
@@ -2502,7 +2502,7 @@ function filterSmgrBranches(smgrIdx, q) {
 
 function sortSmgrBranches(smgrIdx, key) {
   _smgrBranchSort[smgrIdx] = key;
-  ['m8','m7','d1','q2'].forEach(k => {
+  ['m9','m8','d1','q2'].forEach(k => {
     document.querySelectorAll('[id="smgr-sort-' + k + '-' + smgrIdx + '"]').forEach(btn => {
       const active = k === key;
       btn.style.background = active ? 'var(--primary)' : '#fff';
@@ -2730,7 +2730,7 @@ function renderSmgrDetail(m, smgrIdx) {
   const filteredBranches = m.branches
     .filter(b => b.design > 0 || b.amt > 0)
     .sort((a, b) => {
-      if (sortKey === 'm7') return (b.m7||0) - (a.m7||0);
+      if (sortKey === 'm8') return (b.m8||0) - (a.m8||0);
       if (sortKey === 'q2') return ((b.m4||0)+(b.m5||0)+(b.m6||0)) - ((a.m4||0)+(a.m5||0)+(a.m6||0));
       return (b.amt||0) - (a.amt||0);
     });
@@ -2765,7 +2765,7 @@ function renderSmgrDetail(m, smgrIdx) {
       <input type="text" id="smgr-branch-search-${smgrIdx}" placeholder="🔍 지사명 검색..." oninput="filterSmgrBranches(${smgrIdx}, this.value)" style="flex:1;min-width:120px;padding:9px 14px;border:1.5px solid var(--border);border-radius:20px;background:var(--bg);color:var(--text);font-size:15px;outline:none;font-family:var(--font-body);line-height:1.5">
       <div style="display:flex;gap:6px;flex-shrink:0">
         <button onclick="sortSmgrBranches(${smgrIdx},'m9')" id="smgr-sort-m9-${smgrIdx}" style="padding:5px 12px;border-radius:20px;border:1.5px solid ${sortKey==='m9'?'var(--primary)':'var(--border)'};background:${sortKey==='m9'?'var(--primary)':'#fff'};color:${sortKey==='m9'?'#fff':'var(--text2)'};font-size:13px;font-family:var(--font-body);white-space:nowrap;cursor:pointer;transition:all 0.15s;flex-shrink:0${sortKey==='m9'?';box-shadow:0 2px 8px rgba(26,47,94,0.2)':''}">9월↓</button>
-        <button onclick="sortSmgrBranches(${smgrIdx},'m7')" id="smgr-sort-m7-${smgrIdx}" style="padding:5px 12px;border-radius:20px;border:1.5px solid ${sortKey==='m7'?'var(--primary)':'var(--border)'};background:${sortKey==='m7'?'var(--primary)':'#fff'};color:${sortKey==='m7'?'#fff':'var(--text2)'};font-size:13px;font-family:var(--font-body);white-space:nowrap;cursor:pointer;transition:all 0.15s;flex-shrink:0${sortKey==='m7'?';box-shadow:0 2px 8px rgba(26,47,94,0.2)':''}">7월↓</button>
+        <button onclick="sortSmgrBranches(${smgrIdx},'m8')" id="smgr-sort-m8-${smgrIdx}" style="padding:5px 12px;border-radius:20px;border:1.5px solid ${sortKey==='m8'?'var(--primary)':'var(--border)'};background:${sortKey==='m8'?'var(--primary)':'#fff'};color:${sortKey==='m8'?'#fff':'var(--text2)'};font-size:13px;font-family:var(--font-body);white-space:nowrap;cursor:pointer;transition:all 0.15s;flex-shrink:0${sortKey==='m8'?';box-shadow:0 2px 8px rgba(26,47,94,0.2)':''}">8월↓</button>
         <button onclick="sortSmgrBranches(${smgrIdx},'d1')" id="smgr-sort-d1-${smgrIdx}" style="padding:5px 12px;border-radius:20px;border:1.5px solid ${sortKey==='d1'?'var(--primary)':'var(--border)'};background:${sortKey==='d1'?'var(--primary)':'#fff'};color:${sortKey==='d1'?'#fff':'var(--text2)'};font-size:13px;font-family:var(--font-body);white-space:nowrap;cursor:pointer;transition:all 0.15s;flex-shrink:0${sortKey==='d1'?';box-shadow:0 2px 8px rgba(26,47,94,0.2)':''}">D-1↓</button>
         <button onclick="sortSmgrBranches(${smgrIdx},'q2')" id="smgr-sort-q2-${smgrIdx}" style="padding:5px 12px;border-radius:20px;border:1.5px solid ${sortKey==='q2'?'var(--primary)':'var(--border)'};background:${sortKey==='q2'?'var(--primary)':'#fff'};color:${sortKey==='q2'?'#fff':'var(--text2)'};font-size:13px;font-family:var(--font-body);white-space:nowrap;cursor:pointer;transition:all 0.15s;flex-shrink:0${sortKey==='q2'?';box-shadow:0 2px 8px rgba(26,47,94,0.2)':''}">2분기↓</button>
       </div>
@@ -2776,7 +2776,7 @@ function renderSmgrDetail(m, smgrIdx) {
           <th class="name-th">지사명</th>
           <th>설계건</th>
           <th>6월실적</th>
-          <th>7월실적</th>
+          <th>8월실적</th>
           <th>9월실적</th>
           <th>D-1</th>
           <th>하이캡배수</th>
