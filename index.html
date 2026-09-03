@@ -3022,20 +3022,24 @@ function renderBridge() {
       else if (_brGroupTab === 'jisa') sub = d.mgr;
       else sub = d.jisa;
 
-      const designTag = d.design > 0
+      const activityTag = d.design > 0
         ? `<span style="font-size:10px;padding:1px 5px;border-radius:10px;background:#f0f4ff;color:var(--text2);margin-left:4px">설계 ${d.design}</span>`
-        : '';
+        : `<span style="font-size:10px;padding:1px 5px;border-radius:10px;background:#cc330018;color:#cc3300;margin-left:4px;border:1px solid #cc330044">활동전</span>`;
 
       return `<div style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--border)">
         <div style="flex:1;min-width:0">
-          <div style="font-size:14px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center">${d.fc}${designTag}</div>
+          <div style="font-size:14px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center">${d.fc}${activityTag}</div>
           <div style="font-size:11px;color:var(--text2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${sub}</div>
         </div>
-        <div style="text-align:right;min-width:52px">
-          <div style="font-size:12px;color:var(--text2)">8월 <span style="color:var(--text)">${aug > 0 ? aug.toFixed(1) : '-'}</span></div>
-          <div style="font-size:12px;color:var(--text2)">9월 <span style="color:${sept>0?'var(--primary)':'var(--text3)'}">${sept > 0 ? sept.toFixed(1) : '-'}</span></div>
+        <div style="text-align:right;min-width:0;flex-shrink:0">
+          <div style="font-size:12px;color:var(--text2);white-space:nowrap">
+            <span style="color:var(--text)">${aug > 0 ? aug.toFixed(1) : '-'}</span>
+            <span style="color:var(--text3)"> → </span>
+            <span style="color:${sept>0?'var(--primary)':'var(--text3)'}">${sept > 0 ? sept.toFixed(1) : '-'}</span>
+          </div>
+          <div style="font-size:10px;color:var(--text3);text-align:right">8월 → 9월</div>
         </div>
-        <div style="min-width:48px;text-align:center">${typeTag}<br><span style="font-size:12px;color:${sc.color}">${sc.txt}</span></div>
+        <div style="min-width:48px;text-align:center;flex-shrink:0">${typeTag}<br><span style="font-size:12px;color:${sc.color}">${sc.txt}</span></div>
       </div>`;
     }).join('');
 
