@@ -2872,7 +2872,7 @@ const BRIDGE_DATA=[{"mgr":"장현화","jisa":"KGA글로벌 수원","fc":"김미�
 // ══════════════════════════════════════════════
 //  브릿지 관리
 // ══════════════════════════════════════════════
-let _brTypeTab  = 'all';   // all / jl / in
+let _brTypeTab  = 'all';   // all / jl / in / nod
 let _brGroupTab = 'mgr';   // mgr / gyeol / gyebo / jisa
 
 function showBridge() {
@@ -2897,7 +2897,7 @@ function setBridgeGroupTab(g) {
 
 function _applyBridgeTabs() {
   // type tabs
-  ['all','jl','in'].forEach(t => {
+  ['all','jl','in','nod'].forEach(t => {
     const btn = document.getElementById('brtab-' + t);
     if (!btn) return;
     const on = t === _brTypeTab;
@@ -2917,8 +2917,9 @@ function _applyBridgeTabs() {
 }
 
 function _brFiltered() {
-  if (_brTypeTab === 'jl') return BRIDGE_DATA.filter(d => d.type === '주력');
-  if (_brTypeTab === 'in') return BRIDGE_DATA.filter(d => d.type === '인보험');
+  if (_brTypeTab === 'jl')  return BRIDGE_DATA.filter(d => d.type === '주력');
+  if (_brTypeTab === 'in')  return BRIDGE_DATA.filter(d => d.type === '인보험');
+  if (_brTypeTab === 'nod') return BRIDGE_DATA.filter(d => d.design === 0);
   return BRIDGE_DATA;
 }
 
@@ -2934,7 +2935,7 @@ function _brSept(d) { return d.type === '인보험' ? d.in_sept : d.jl_sept; }
 const BR_STATUS = {
   done: { txt:'달성',  color:'#0a8c44' },
   prog: { txt:'진행중', color:'#e07800' },
-  none: { txt:'미진행', color:'#cc3300' },
+  none: { txt:'미달성', color:'#cc3300' },
 };
 
 function _brSummaryBar(data) {
@@ -2946,7 +2947,7 @@ function _brSummaryBar(data) {
     {label:'전체',  val:total, c:'var(--primary)'},
     {label:'달성',  val:done,  c:'#0a8c44'},
     {label:'진행중', val:prog,  c:'#e07800'},
-    {label:'미진행', val:none,  c:'#cc3300'},
+    {label:'미달성', val:none,  c:'#cc3300'},
   ].map(x=>`<div style="background:${x.c}18;border:1px solid ${x.c}44;border-radius:20px;padding:4px 12px;font-size:12px;color:${x.c};display:flex;gap:5px;align-items:center"><span style="font-size:15px">${x.val}</span><span>${x.label}</span></div>`).join('');
 }
 
@@ -2994,7 +2995,7 @@ function renderBridge() {
     const prog = list.filter(d => _brStatus(d)==='prog').length;
     const none = list.length - done - prog;
 
-    // sort: 달성 → 진행중 → 미진행, 같은 상태 내 sept desc
+    // sort: 달성 → 진행중 → 미달성, 같은 상태 내 sept desc
     const sorted = [...list].sort((a,b) => {
       const sp = {done:0, prog:1, none:2};
       const da = sp[_brStatus(a)], db = sp[_brStatus(b)];
@@ -3005,7 +3006,7 @@ function renderBridge() {
     const badges = [
       done > 0 ? `<span style="background:#0a8c4418;border:1px solid #0a8c4444;border-radius:12px;padding:2px 7px;font-size:11px;color:#0a8c44">달성 ${done}</span>` : '',
       prog > 0 ? `<span style="background:#e0780018;border:1px solid #e0780044;border-radius:12px;padding:2px 7px;font-size:11px;color:#e07800">진행 ${prog}</span>` : '',
-      none > 0 ? `<span style="background:#cc330018;border:1px solid #cc330044;border-radius:12px;padding:2px 7px;font-size:11px;color:#cc3300">미진행 ${none}</span>` : '',
+      none > 0 ? `<span style="background:#cc330018;border:1px solid #cc330044;border-radius:12px;padding:2px 7px;font-size:11px;color:#cc3300">미달성 ${none}</span>` : '',
     ].filter(Boolean).join('');
 
     // 보조 컨텍스트: 매니저 기준이면 jisa 표시, 지사 기준이면 매니저 표시, 그외 둘 다
@@ -3092,6 +3093,7 @@ renderHome();
     <button id="brtab-all" onclick="setBridgeTypeTab('all')" style="padding:5px 14px;border-radius:20px;border:1.5px solid var(--primary);background:var(--primary);color:#fff;font-size:13px;font-family:var(--font-body);cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(26,47,94,0.2)">전체</button>
     <button id="brtab-jl"  onclick="setBridgeTypeTab('jl')"  style="padding:5px 14px;border-radius:20px;border:1.5px solid var(--border);background:#fff;color:var(--text2);font-size:13px;font-family:var(--font-body);cursor:pointer;white-space:nowrap">주력브릿지</button>
     <button id="brtab-in"  onclick="setBridgeTypeTab('in')"  style="padding:5px 14px;border-radius:20px;border:1.5px solid var(--border);background:#fff;color:var(--text2);font-size:13px;font-family:var(--font-body);cursor:pointer;white-space:nowrap">인보험브릿지</button>
+    <button id="brtab-nod" onclick="setBridgeTypeTab('nod')" style="padding:5px 14px;border-radius:20px;border:1.5px solid var(--border);background:#fff;color:var(--text2);font-size:13px;font-family:var(--font-body);cursor:pointer;white-space:nowrap">미설계</button>
   </div>
   <!-- 조회기준 탭 (매니저/본점/계열/지사) -->
   <div style="display:flex;border-bottom:1.5px solid var(--border);padding:6px 16px 0;gap:0" id="bridge-group-tabs">
