@@ -2017,14 +2017,14 @@ function renderHeaderStats() {
 // ══════════════════════════════════════════════
 
 function _currentScreen() {
-  const ids = ['screen-home','screen-list','screen-jisa-list','screen-fc-list','screen-branch','screen-pf-list','screen-support-mgr','screen-support-jisa','screen-bridge'];
+  const ids = ['screen-home','screen-list','screen-jisa-list','screen-fc-list','screen-branch','screen-pf-list','screen-support-mgr','screen-support-jisa','screen-bridge','screen-bridge-sub'];
   return ids.find(id => { const el = document.getElementById(id); return el && !el.classList.contains('hidden'); }) || 'screen-home';
 }
 
 (function() {
   const _origGoHome = goHome;
   goHome = function() {
-    ['screen-pf-list','screen-support-mgr','screen-support-jisa','screen-bridge'].forEach(id => {
+    ['screen-pf-list','screen-support-mgr','screen-support-jisa','screen-bridge','screen-bridge-sub'].forEach(id => {
       const el = document.getElementById(id);
       if (el) { el.classList.add('hidden'); el.classList.remove('fade-out'); }
     });
@@ -2862,186 +2862,261 @@ MGMT_DATA.forEach(m => {
 });
 
 
-const BRIDGE_DATA=[{"mgr":"장현화","jisa":"KGA글로벌 수원","fc":"김미경","type":"주력","done":false,"design":0,"in_aug":160.25,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":160.25,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"KGA","gyebo":"KGA 글로벌"},{"mgr":"정지혜","jisa":"(주)글로벌금융판매 베스트경인","fc":"김병주","type":"주력","done":false,"design":9,"in_aug":100.4,"in_sept":80.67,"in_prize":0,"in_done":false,"jl_aug":100.4,"jl_sept":80.67,"jl_prize":0,"jl_done":false,"gyeol":"글로벌","gyebo":"글로벌 베스트경인"},{"mgr":"장현화","jisa":"(주)에이플러스에셋동탄지점","fc":"김금연","type":"주력","done":false,"design":2,"in_aug":200.2,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":169.7,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"에이플","gyebo":"에이플 동탄"},{"mgr":"장현화","jisa":"(주)에이플러스에셋동탄지점","fc":"김채원","type":"주력","done":false,"design":0,"in_aug":217.6,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":217.6,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"에이플","gyebo":"에이플 동탄"},{"mgr":"장현화","jisa":"(주)에이플러스에셋동탄지점","fc":"이미영","type":"주력","done":false,"design":7,"in_aug":155.26,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":155.26,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"에이플","gyebo":"에이플 동탄"},{"mgr":"장현화","jisa":"(주)에이플러스에셋동탄지점","fc":"주은화","type":"주력","done":false,"design":23,"in_aug":107.11,"in_sept":95.34,"in_prize":0,"in_done":false,"jl_aug":107.11,"jl_sept":95.34,"jl_prize":0,"jl_done":false,"gyeol":"에이플","gyebo":"에이플 동탄"},{"mgr":"박미선","jisa":"(주)엠금융서비스 우리동탄","fc":"김영자","type":"인보험","done":false,"design":1,"in_aug":127.35,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":0.0,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"엠금융","gyebo":"엠금융 우리동탄"},{"mgr":"박미선","jisa":"(주)엠금융서비스 우리동탄","fc":"백인숙","type":"주력","done":false,"design":0,"in_aug":100.49,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":100.49,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"엠금융","gyebo":"엠금융 우리동탄"},{"mgr":"박미선","jisa":"(주)엠금융서비스 우리동탄","fc":"변용희","type":"주력","done":true,"design":19,"in_aug":543.7,"in_sept":146.37,"in_prize":200000,"in_done":false,"jl_aug":446.25,"jl_sept":146.37,"jl_prize":800000,"jl_done":false,"gyeol":"엠금융","gyebo":"엠금융 우리동탄"},{"mgr":"박미선","jisa":"(주)엠금융서비스 우리동탄","fc":"우경애","type":"주력","done":false,"design":13,"in_aug":118.01,"in_sept":60.18,"in_prize":0,"in_done":false,"jl_aug":118.01,"jl_sept":60.18,"jl_prize":0,"jl_done":false,"gyeol":"엠금융","gyebo":"엠금융 우리동탄"},{"mgr":"박미선","jisa":"(주)엠금융서비스 우리동탄","fc":"정혜숙","type":"주력","done":false,"design":10,"in_aug":135.31,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":135.31,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"엠금융","gyebo":"엠금융 우리동탄"},{"mgr":"김세희","jisa":"(주)인슈랜드","fc":"곽미연","type":"주력","done":false,"design":8,"in_aug":146.32,"in_sept":35.33,"in_prize":0,"in_done":false,"jl_aug":102.64,"jl_sept":35.33,"jl_prize":0,"jl_done":false,"gyeol":"전속","gyebo":"-"},{"mgr":"김지혜","jisa":"(주)카라멜에셋 하이","fc":"배은선","type":"인보험","done":false,"design":18,"in_aug":138.52,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":55.07,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"카라멜에셋","gyebo":"(주)카라멜에셋 하이"},{"mgr":"김지혜","jisa":"(주)카라멜에셋 하이","fc":"허영은","type":"주력","done":true,"design":3,"in_aug":601.72,"in_sept":187.02,"in_prize":200000,"in_done":false,"jl_aug":524.92,"jl_sept":187.02,"jl_prize":800000,"jl_done":false,"gyeol":"카라멜에셋","gyebo":"(주)카라멜에셋 하이"},{"mgr":"김지혜","jisa":"(주)카라멜에셋 하이","fc":"허준","type":"주력","done":true,"design":69,"in_aug":549.72,"in_sept":970.52,"in_prize":3000000,"in_done":true,"jl_aug":549.72,"jl_sept":970.52,"jl_prize":5000000,"jl_done":true,"gyeol":"카라멜에셋","gyebo":"(주)카라멜에셋 하이"},{"mgr":"김효진","jisa":"(주)트루 대성지점","fc":"금경희","type":"주력","done":false,"design":0,"in_aug":124.65,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":124.65,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"트루","gyebo":"트루 대성"},{"mgr":"박미선","jisa":"현대홈 용인","fc":"김경진","type":"주력","done":false,"design":1,"in_aug":230.1,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":196.61,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"현대홈쇼핑","gyebo":"현대홈 MCL"},{"mgr":"김세희","jisa":"현대홈 부천","fc":"김기숙","type":"주력","done":false,"design":3,"in_aug":157.75,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":104.38,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"현대홈쇼핑","gyebo":"현대홈 MCL"},{"mgr":"정지혜","jisa":"현대홈 빅트리","fc":"김보미","type":"주력","done":true,"design":9,"in_aug":280.37,"in_sept":101.07,"in_prize":200000,"in_done":false,"jl_aug":280.37,"jl_sept":101.07,"jl_prize":800000,"jl_done":false,"gyeol":"현대홈쇼핑","gyebo":"현대홈 빅트리"},{"mgr":"박미선","jisa":"현대홈 용인","fc":"김선희","type":"주력","done":false,"design":0,"in_aug":103.54,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":103.54,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"현대홈쇼핑","gyebo":"현대홈 MCL"},{"mgr":"박미선","jisa":"현대홈 하남미사","fc":"김정숙","type":"주력","done":false,"design":18,"in_aug":139.63,"in_sept":86.02,"in_prize":0,"in_done":false,"jl_aug":139.63,"jl_sept":86.02,"jl_prize":0,"jl_done":false,"gyeol":"현대홈쇼핑","gyebo":"현대홈 MCL"},{"mgr":"박미선","jisa":"현대홈 용인","fc":"김지현","type":"주력","done":false,"design":1,"in_aug":165.76,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":165.76,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"현대홈쇼핑","gyebo":"현대홈 MCL"},{"mgr":"김세희","jisa":"현대홈 위대한","fc":"김찬욱","type":"주력","done":false,"design":12,"in_aug":130.88,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":130.88,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"현대홈쇼핑","gyebo":"현대홈 위대한"},{"mgr":"김세희","jisa":"현대홈 위대한","fc":"김하나","type":"주력","done":false,"design":0,"in_aug":160.09,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":160.09,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"현대홈쇼핑","gyebo":"현대홈 위대한"},{"mgr":"박미선","jisa":"현대홈 용인","fc":"류승희","type":"주력","done":false,"design":0,"in_aug":100.82,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":100.82,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"현대홈쇼핑","gyebo":"현대홈 MCL"},{"mgr":"박미선","jisa":"현대홈 용인","fc":"문영순","type":"주력","done":false,"design":27,"in_aug":140.6,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":120.6,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"현대홈쇼핑","gyebo":"현대홈 MCL"},{"mgr":"박미선","jisa":"현대홈 용인","fc":"박성희","type":"주력","done":false,"design":0,"in_aug":148.89,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":148.89,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"현대홈쇼핑","gyebo":"현대홈 MCL"},{"mgr":"박미선","jisa":"현대홈 용인","fc":"박소연","type":"주력","done":true,"design":4,"in_aug":175.52,"in_sept":127.63,"in_prize":200000,"in_done":true,"jl_aug":175.52,"jl_sept":127.63,"jl_prize":800000,"jl_done":true,"gyeol":"현대홈쇼핑","gyebo":"현대홈 MCL"},{"mgr":"김세희","jisa":"현대홈 인천","fc":"심미옥","type":"주력","done":false,"design":1,"in_aug":115.54,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":115.54,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"현대홈쇼핑","gyebo":"현대홈 MCL"},{"mgr":"정지혜","jisa":"현대홈 화성","fc":"안성경","type":"주력","done":false,"design":8,"in_aug":187.33,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":187.33,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"현대홈쇼핑","gyebo":"현대홈 MCL"},{"mgr":"정지혜","jisa":"현대홈 화성","fc":"오은미","type":"주력","done":false,"design":2,"in_aug":239.75,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":239.75,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"현대홈쇼핑","gyebo":"현대홈 MCL"},{"mgr":"정지혜","jisa":"현대홈 화성","fc":"이정아","type":"주력","done":false,"design":14,"in_aug":100.11,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":100.11,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"현대홈쇼핑","gyebo":"현대홈 MCL"},{"mgr":"박미선","jisa":"현대홈 용인","fc":"이현서","type":"주력","done":false,"design":4,"in_aug":139.83,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":139.83,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"현대홈쇼핑","gyebo":"현대홈 MCL"},{"mgr":"박미선","jisa":"현대홈 용인","fc":"전명금","type":"주력","done":false,"design":0,"in_aug":129.0,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":129.0,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"현대홈쇼핑","gyebo":"현대홈 MCL"},{"mgr":"박미선","jisa":"현대홈 용인","fc":"최예원","type":"주력","done":true,"design":16,"in_aug":148.45,"in_sept":120.91,"in_prize":200000,"in_done":true,"jl_aug":148.45,"jl_sept":120.91,"jl_prize":800000,"jl_done":true,"gyeol":"현대홈쇼핑","gyebo":"현대홈 MCL"},{"mgr":"정지혜","jisa":"현대홈 오산","fc":"최은주","type":"주력","done":false,"design":2,"in_aug":108.62,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":108.62,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"현대홈쇼핑","gyebo":"현대홈 MCL"},{"mgr":"박미선","jisa":"현대홈 용인","fc":"함승민","type":"주력","done":false,"design":15,"in_aug":231.5,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":231.5,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"현대홈쇼핑","gyebo":"현대홈 MCL"},{"mgr":"김희선","jisa":"더금융서비스 명문지점","fc":"김도형","type":"주력","done":false,"design":0,"in_aug":125.65,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":125.65,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"더금융서비스","gyebo":"더금융 명문"},{"mgr":"김희선","jisa":"더금융서비스 명문지점","fc":"김민경","type":"주력","done":false,"design":6,"in_aug":494.03,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":494.03,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"더금융서비스","gyebo":"더금융 명문"},{"mgr":"김희선","jisa":"더금융서비스 명문지점","fc":"김혁주","type":"주력","done":false,"design":1,"in_aug":149.32,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":149.32,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"더금융서비스","gyebo":"더금융 명문"},{"mgr":"김희선","jisa":"더금융서비스 명문지점","fc":"박민정","type":"주력","done":false,"design":7,"in_aug":211.96,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":211.96,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"더금융서비스","gyebo":"더금융 명문"},{"mgr":"김희선","jisa":"더금융서비스 명문지점","fc":"박형식","type":"주력","done":false,"design":0,"in_aug":206.96,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":206.96,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"더금융서비스","gyebo":"더금융 명문"},{"mgr":"김희선","jisa":"더금융서비스 명문지점","fc":"이인재","type":"주력","done":false,"design":8,"in_aug":197.58,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":169.69,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"더금융서비스","gyebo":"더금융 명문"},{"mgr":"김희선","jisa":"더금융서비스 명문지점","fc":"장민혜","type":"주력","done":false,"design":2,"in_aug":351.75,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":289.93,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"더금융서비스","gyebo":"더금융 명문"},{"mgr":"김지혜","jisa":"더베스트 이재명 평택센터","fc":"임현숙","type":"주력","done":true,"design":32,"in_aug":177.19,"in_sept":244.28,"in_prize":200000,"in_done":true,"jl_aug":177.19,"jl_sept":244.28,"jl_prize":800000,"jl_done":true,"gyeol":"더베스트금융","gyebo":"더베스트 이재명"},{"mgr":"장현화","jisa":"더베스트 김효제 서수원","fc":"김미옥","type":"인보험","done":false,"design":2,"in_aug":126.28,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":82.02,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"더베스트금융","gyebo":"더베스트 김효제"},{"mgr":"이슬","jisa":"더베스트 김효제 경기AS","fc":"안지연","type":"주력","done":false,"design":12,"in_aug":207.94,"in_sept":17.46,"in_prize":0,"in_done":false,"jl_aug":207.94,"jl_sept":17.46,"jl_prize":0,"jl_done":false,"gyeol":"더베스트금융","gyebo":"더베스트 김효제"},{"mgr":"김세희","jisa":"더베스트 김효제 경기VIP","fc":"차하정","type":"주력","done":false,"design":2,"in_aug":127.44,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":127.44,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"더베스트금융","gyebo":"더베스트 김효제"},{"mgr":"김세희","jisa":"더베스트 김효제 청라","fc":"한지우","type":"주력","done":true,"design":6,"in_aug":201.4,"in_sept":204.65,"in_prize":800000,"in_done":true,"jl_aug":201.4,"jl_sept":204.65,"jl_prize":1600000,"jl_done":true,"gyeol":"더베스트금융","gyebo":"더베스트 김효제"},{"mgr":"김세희","jisa":"더베스트 이재명 인천","fc":"성말례","type":"주력","done":false,"design":18,"in_aug":275.63,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":275.63,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"더베스트금융","gyebo":"더베스트 이재명"},{"mgr":"정지혜","jisa":"더베스트 이재명 구미","fc":"유인숙","type":"주력","done":true,"design":3,"in_aug":503.3,"in_sept":509.44,"in_prize":3000000,"in_done":true,"jl_aug":503.3,"jl_sept":509.44,"jl_prize":5000000,"jl_done":true,"gyeol":"더베스트금융","gyebo":"더베스트 이재명"},{"mgr":"정지혜","jisa":"더블유에셋(주) 오산스마트본부","fc":"강윤미","type":"주력","done":true,"design":5,"in_aug":208.42,"in_sept":205.85,"in_prize":800000,"in_done":true,"jl_aug":208.42,"jl_sept":205.85,"jl_prize":1600000,"jl_done":true,"gyeol":"기타","gyebo":"더블유에셋"},{"mgr":"정지혜","jisa":"더블유에셋(주) 오산스마트본부","fc":"김미경","type":"주력","done":true,"design":6,"in_aug":100.23,"in_sept":121.01,"in_prize":200000,"in_done":true,"jl_aug":100.23,"jl_sept":121.01,"jl_prize":800000,"jl_done":true,"gyeol":"기타","gyebo":"더블유에셋"},{"mgr":"정지혜","jisa":"더블유에셋(주) 오산스마트본부","fc":"이미화","type":"주력","done":false,"design":3,"in_aug":101.22,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":101.22,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"기타","gyebo":"더블유에셋"},{"mgr":"박미선","jisa":"미래에셋금융서비스(주) 그로우지사","fc":"김덕규","type":"주력","done":true,"design":13,"in_aug":323.29,"in_sept":564.78,"in_prize":1500000,"in_done":true,"jl_aug":277.63,"jl_sept":564.78,"jl_prize":1600000,"jl_done":true,"gyeol":"미래에셋","gyebo":"미래에셋 그로우"},{"mgr":"박미선","jisa":"미래에셋금융서비스(주) 그로우지사","fc":"배푸름별","type":"주력","done":false,"design":1,"in_aug":276.69,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":276.69,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"미래에셋","gyebo":"미래에셋 그로우"},{"mgr":"김지혜","jisa":"삼성금융파트너스 미도","fc":"이인성","type":"주력","done":true,"design":17,"in_aug":202.0,"in_sept":108.65,"in_prize":200000,"in_done":false,"jl_aug":202.0,"jl_sept":108.65,"jl_prize":800000,"jl_done":false,"gyeol":"삼성","gyebo":"삼성금융"},{"mgr":"김지혜","jisa":"신한금융플러스 주식회사 쥬피터지점","fc":"이선희","type":"주력","done":true,"design":8,"in_aug":111.22,"in_sept":213.8,"in_prize":200000,"in_done":true,"jl_aug":111.22,"jl_sept":213.8,"jl_prize":800000,"jl_done":true,"gyeol":"신금플","gyebo":"신금플 쥬피터"},{"mgr":"김효진","jisa":"신한금융플러스 주식회사 지에프송탄지점","fc":"강춘자","type":"주력","done":false,"design":0,"in_aug":209.63,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":209.63,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"신금플","gyebo":"신금플 GF송탄"},{"mgr":"김효진","jisa":"신한금융플러스 주식회사 지에프송탄지점","fc":"이상미","type":"주력","done":false,"design":0,"in_aug":125.47,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":125.47,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"신금플","gyebo":"신금플 GF송탄"},{"mgr":"정지혜","jisa":"더베스트 김효제 오산","fc":"함지은","type":"주력","done":false,"design":0,"in_aug":127.16,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":127.16,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"더베스트금융","gyebo":"더베스트 김효제"},{"mgr":"정지혜","jisa":"인카금융서비스 주식회사 가온에셋지점","fc":"송주아","type":"인보험","done":false,"design":0,"in_aug":100.68,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":60.68,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"인카","gyebo":"인카 가온에셋"},{"mgr":"정지혜","jisa":"인카금융서비스 주식회사 가온에셋지점","fc":"조연화","type":"주력","done":false,"design":6,"in_aug":146.55,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":133.38,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"인카","gyebo":"인카 가온에셋"},{"mgr":"박미선","jisa":"인카금융서비스(주)가온누리","fc":"오성혁","type":"주력","done":false,"design":31,"in_aug":290.87,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":290.87,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"인카","gyebo":"인카 가온누리"},{"mgr":"박미선","jisa":"인카금융서비스(주)가온누리","fc":"이상규","type":"주력","done":true,"design":28,"in_aug":126.39,"in_sept":123.67,"in_prize":200000,"in_done":true,"jl_aug":126.39,"jl_sept":123.67,"jl_prize":800000,"jl_done":true,"gyeol":"인카","gyebo":"인카 가온누리"},{"mgr":"정지혜","jisa":"인카금융서비스(주)스카이본부","fc":"임수지","type":"주력","done":false,"design":12,"in_aug":230.13,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":230.13,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"인카","gyebo":"인카 스카이"},{"mgr":"정지혜","jisa":"주식회사 디딤돌에셋","fc":"김가영","type":"주력","done":false,"design":3,"in_aug":137.09,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":127.09,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"기타","gyebo":"디딤돌"},{"mgr":"정지혜","jisa":"주식회사 디딤돌에셋","fc":"이현주","type":"주력","done":false,"design":0,"in_aug":100.19,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":100.19,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"기타","gyebo":"디딤돌"},{"mgr":"정지혜","jisa":"주식회사 디딤돌에셋","fc":"최진혁","type":"주력","done":false,"design":10,"in_aug":105.69,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":105.69,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"기타","gyebo":"디딤돌"},{"mgr":"장현화","jisa":"주식회사 지금융코리아 시온인스케어","fc":"이상수","type":"주력","done":true,"design":13,"in_aug":397.03,"in_sept":7.51,"in_prize":200000,"in_done":false,"jl_aug":365.86,"jl_sept":7.51,"jl_prize":800000,"jl_done":false,"gyeol":"기타","gyebo":"지금융 시온"},{"mgr":"장현화","jisa":"주식회사 지금융코리아 시온인스케어","fc":"이은숙","type":"주력","done":false,"design":14,"in_aug":104.45,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":104.45,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"기타","gyebo":"지금융 시온"},{"mgr":"장현화","jisa":"주식회사 지금융코리아 시온인스케어","fc":"정은경","type":"주력","done":false,"design":8,"in_aug":300.0,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":300.0,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"기타","gyebo":"지금융 시온"},{"mgr":"박미선","jisa":"주식회사원금융서비스 엠브이피지점","fc":"김지혜","type":"주력","done":true,"design":31,"in_aug":592.23,"in_sept":302.68,"in_prize":1500000,"in_done":false,"jl_aug":565.97,"jl_sept":302.68,"jl_prize":1600000,"jl_done":false,"gyeol":"원금융","gyebo":"원금융 MVP"},{"mgr":"곽보미","jisa":"㈜트루 효명지점","fc":"김대흥","type":"주력","done":false,"design":0,"in_aug":178.45,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":178.45,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"트루","gyebo":"트루 효명"},{"mgr":"곽보미","jisa":"㈜트루 효명지점","fc":"김정아","type":"주력","done":false,"design":3,"in_aug":157.13,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":157.13,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"트루","gyebo":"트루 효명"},{"mgr":"곽보미","jisa":"㈜트루 효명지점","fc":"신용재","type":"주력","done":false,"design":3,"in_aug":156.14,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":156.14,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"트루","gyebo":"트루 효명"},{"mgr":"곽보미","jisa":"㈜트루 효명지점","fc":"임현희","type":"주력","done":true,"design":16,"in_aug":244.57,"in_sept":141.15,"in_prize":200000,"in_done":false,"jl_aug":244.57,"jl_sept":141.15,"jl_prize":800000,"jl_done":false,"gyeol":"트루","gyebo":"트루 효명"},{"mgr":"곽보미","jisa":"㈜트루 효명지점","fc":"정형덕","type":"인보험","done":false,"design":0,"in_aug":191.24,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":0.0,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"트루","gyebo":"트루 효명"},{"mgr":"곽보미","jisa":"㈜트루 효명지점","fc":"진성숙","type":"주력","done":false,"design":0,"in_aug":128.26,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":128.26,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"트루","gyebo":"트루 효명"},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융수원지점","fc":"김부경","type":"주력","done":true,"design":5,"in_aug":109.65,"in_sept":103.08,"in_prize":200000,"in_done":true,"jl_aug":109.65,"jl_sept":103.08,"jl_prize":800000,"jl_done":true,"gyeol":"GA스타","gyebo":"GA스타 김광진"},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융수원지점","fc":"이재경","type":"주력","done":true,"design":15,"in_aug":503.44,"in_sept":404.02,"in_prize":2000000,"in_done":false,"jl_aug":366.59,"jl_sept":404.02,"jl_prize":2400000,"jl_done":true,"gyeol":"GA스타","gyebo":"GA스타 김광진"},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융수원지점","fc":"홍수진","type":"주력","done":false,"design":24,"in_aug":214.25,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":214.25,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"GA스타","gyebo":"GA스타 김광진"},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융지점","fc":"김하영","type":"주력","done":false,"design":0,"in_aug":300.0,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":300.0,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"GA스타","gyebo":"GA스타 김광진"},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융지점","fc":"김향자","type":"인보험","done":false,"design":21,"in_aug":108.9,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":98.82,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"GA스타","gyebo":"GA스타 김광진"},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융지점","fc":"박근자","type":"인보험","done":false,"design":0,"in_aug":103.54,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":58.2,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"GA스타","gyebo":"GA스타 김광진"},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융지점","fc":"신동조","type":"주력","done":false,"design":1,"in_aug":201.82,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":201.82,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"GA스타","gyebo":"GA스타 김광진"},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융지점","fc":"오애자","type":"주력","done":false,"design":0,"in_aug":109.78,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":109.78,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"GA스타","gyebo":"GA스타 김광진"},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융지점","fc":"천성자","type":"주력","done":false,"design":2,"in_aug":105.7,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":105.7,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"GA스타","gyebo":"GA스타 김광진"},{"mgr":"장현화","jisa":"지에이스타금융서비스(주) 위드라이프코어지점","fc":"전민선","type":"주력","done":false,"design":4,"in_aug":113.75,"in_sept":40.56,"in_prize":0,"in_done":false,"jl_aug":113.75,"jl_sept":40.56,"jl_prize":0,"jl_done":false,"gyeol":"GA스타","gyebo":"GA스타 코어"},{"mgr":"정지혜","jisa":"지에이코리아(주) 럭키지엠케이라이프지점","fc":"박양경","type":"인보험","done":false,"design":11,"in_aug":100.4,"in_sept":0.0,"in_prize":200000,"in_done":true,"jl_aug":0.0,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"GAK","gyebo":"GAK 케이라이프"},{"mgr":"정지혜","jisa":"지에이코리아(주) 럭키지엠케이라이프지점","fc":"이은정","type":"주력","done":false,"design":0,"in_aug":113.53,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":113.53,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"GAK","gyebo":"GAK 케이라이프"},{"mgr":"박미선","jisa":"지에이코리아(주) 에셋마스터마스타인스지점","fc":"방진우","type":"인보험","done":false,"design":18,"in_aug":107.23,"in_sept":15.12,"in_prize":0,"in_done":false,"jl_aug":0.0,"jl_sept":15.12,"jl_prize":0,"jl_done":false,"gyeol":"GAK","gyebo":"마스타인스"},{"mgr":"김지혜","jisa":"지에이코리아(주) 에셋마스터오케이지점","fc":"한주옥","type":"주력","done":false,"design":41,"in_aug":159.55,"in_sept":206.61,"in_prize":200000,"in_done":true,"jl_aug":159.55,"jl_sept":206.61,"jl_prize":0,"jl_done":false,"gyeol":"GAK","gyebo":"GAK 한주옥"},{"mgr":"정지혜","jisa":"지에이코리아(주)해피오산","fc":"임병식","type":"주력","done":true,"design":43,"in_aug":357.6,"in_sept":358.21,"in_prize":1500000,"in_done":true,"jl_aug":332.02,"jl_sept":358.21,"jl_prize":2400000,"jl_done":true,"gyeol":"GAK","gyebo":"GAK 해피오산"},{"mgr":"박미선","jisa":"케이지에이에셋(주) 마스타인스지점","fc":"송미숙","type":"주력","done":true,"design":3,"in_aug":135.5,"in_sept":152.54,"in_prize":200000,"in_done":true,"jl_aug":135.5,"jl_sept":152.54,"jl_prize":800000,"jl_done":true,"gyeol":"KGA","gyebo":"마스타인스"},{"mgr":"박미선","jisa":"케이지에이에셋(주) 마스타인스지점","fc":"장길수","type":"주력","done":false,"design":0,"in_aug":342.89,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":292.89,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"KGA","gyebo":"마스타인스"},{"mgr":"박미선","jisa":"케이지에이에셋(주) 마스타인스지점","fc":"주상희","type":"주력","done":false,"design":0,"in_aug":222.83,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":222.83,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"KGA","gyebo":"마스타인스"},{"mgr":"박미선","jisa":"케이지에이에셋(주) 마스타인스지점","fc":"추은경","type":"주력","done":false,"design":9,"in_aug":239.21,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":239.21,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"KGA","gyebo":"마스타인스"},{"mgr":"곽보미","jisa":"트루안성","fc":"김지연","type":"주력","done":false,"design":3,"in_aug":227.45,"in_sept":33.94,"in_prize":0,"in_done":false,"jl_aug":227.45,"jl_sept":33.94,"jl_prize":0,"jl_done":false,"gyeol":"트루","gyebo":"트루 안성"},{"mgr":"김효진","jisa":"트루평택지점","fc":"곽승미","type":"주력","done":false,"design":1,"in_aug":210.03,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":210.03,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"트루","gyebo":"트루 평택"},{"mgr":"김효진","jisa":"트루평택지점","fc":"손혜경","type":"주력","done":false,"design":10,"in_aug":317.31,"in_sept":89.7,"in_prize":0,"in_done":false,"jl_aug":317.31,"jl_sept":89.7,"jl_prize":0,"jl_done":false,"gyeol":"트루","gyebo":"트루 평택"},{"mgr":"김효진","jisa":"트루평택지점","fc":"이장원","type":"주력","done":false,"design":25,"in_aug":207.01,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":207.01,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"트루","gyebo":"트루 평택"},{"mgr":"김지혜","jisa":"프라임에셋(주) 평택3지점","fc":"심주연","type":"주력","done":false,"design":0,"in_aug":102.81,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":102.81,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"프라임","gyebo":"프라임 평택3"},{"mgr":"김지혜","jisa":"프라임에셋(주) 평택3지점","fc":"홍승택","type":"주력","done":false,"design":0,"in_aug":183.32,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":132.84,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"프라임","gyebo":"프라임 평택3"},{"mgr":"장현화","jisa":"프라임에셋(주)동탄2지점","fc":"김시내","type":"주력","done":false,"design":3,"in_aug":354.3,"in_sept":15.63,"in_prize":0,"in_done":false,"jl_aug":293.09,"jl_sept":15.63,"jl_prize":0,"jl_done":false,"gyeol":"프라임","gyebo":"프라임 동탄2"},{"mgr":"장현화","jisa":"프라임에셋(주)동탄2지점","fc":"이은진","type":"인보험","done":false,"design":0,"in_aug":101.7,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":74.69,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"프라임","gyebo":"프라임 동탄2"},{"mgr":"김효진","jisa":"한화생명금융서비스(주)아너스다옴지점","fc":"정경숙","type":"인보험","done":false,"design":0,"in_aug":103.6,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":0.0,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"한화생명","gyebo":"-"},{"mgr":"김희선","jisa":"한화생명금융서비스송북지점","fc":"최현희","type":"인보험","done":false,"design":0,"in_aug":143.77,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":0.0,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"한화생명","gyebo":"-"},{"mgr":"김지혜","jisa":"한화피플라이프㈜오산","fc":"장혜정","type":"주력","done":false,"design":0,"in_aug":136.58,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":136.58,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"피플라이프","gyebo":"피플 오산"},{"mgr":"김지혜","jisa":"한화피플라이프㈜평택","fc":"양경숙","type":"주력","done":false,"design":7,"in_aug":214.05,"in_sept":10.0,"in_prize":0,"in_done":false,"jl_aug":188.47,"jl_sept":10.0,"jl_prize":0,"jl_done":false,"gyeol":"피플라이프","gyebo":"피플 평택"},{"mgr":"김지혜","jisa":"한화피플라이프㈜평택","fc":"이상준","type":"주력","done":true,"design":13,"in_aug":301.4,"in_sept":255.48,"in_prize":800000,"in_done":false,"jl_aug":301.4,"jl_sept":255.48,"jl_prize":1600000,"jl_done":false,"gyeol":"피플라이프","gyebo":"피플 평택"},{"mgr":"김지혜","jisa":"한화피플라이프㈜평택","fc":"이윤진","type":"주력","done":false,"design":3,"in_aug":166.03,"in_sept":157.11,"in_prize":0,"in_done":false,"jl_aug":149.43,"jl_sept":157.11,"jl_prize":0,"jl_done":false,"gyeol":"피플라이프","gyebo":"피플 평택"},{"mgr":"김지혜","jisa":"한화피플라이프㈜평택","fc":"전홍성","type":"주력","done":false,"design":3,"in_aug":202.38,"in_sept":100.0,"in_prize":0,"in_done":false,"jl_aug":202.38,"jl_sept":100.0,"jl_prize":0,"jl_done":false,"gyeol":"피플라이프","gyebo":"피플 평택"},{"mgr":"김지혜","jisa":"한화피플라이프㈜평택","fc":"조영란","type":"주력","done":false,"design":4,"in_aug":271.99,"in_sept":0.0,"in_prize":0,"in_done":false,"jl_aug":271.99,"jl_sept":0.0,"jl_prize":0,"jl_done":false,"gyeol":"피플라이프","gyebo":"피플 평택"},{"mgr":"김지혜","jisa":"한화피플라이프㈜평택","fc":"홍기영","type":"주력","done":true,"design":20,"in_aug":244.81,"in_sept":100.36,"in_prize":200000,"in_done":false,"jl_aug":244.81,"jl_sept":100.36,"jl_prize":800000,"jl_done":false,"gyeol":"피플라이프","gyebo":"피플 평택"}];
-// ══════════════════════════════════════════════
-//  브릿지 관리
-// ══════════════════════════════════════════════
-let _brTypeTab  = 'all';   // all / jl / in / nod
-let _brGroupTab = 'mgr';   // mgr / gyeol / gyebo / jisa
+const BRIDGE_910_DATA=[{"mgr":"곽보미","jisa":"㈜트루 효명지점","fc":"이향심","code":"4PH090","type":"주력브릿지대상","done":"미달성","design":5,"in_sept":109.5,"in_oct":78.3,"in_prize":0.0,"in_remain":21.7,"in_done":"미달성","jl_sept":109.5,"jl_oct":78.3,"jl_prize":0.0,"jl_remain":21.7,"jl_done":"미달성"},{"mgr":"곽보미","jisa":"㈜트루 효명지점","fc":"최정화","code":"4BQM12","type":"인브릿지대상","done":"미달성","design":6,"in_sept":100.0,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":0.0,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":0.0,"jl_done":"미달성"},{"mgr":"김세희","jisa":"인슈프라자 인천","fc":"이현진","code":"46165P","type":"주력브릿지대상","done":"달성","design":4,"in_sept":511.6,"in_oct":506.2,"in_prize":3000.0,"in_remain":0.0,"in_done":"달성","jl_sept":511.6,"jl_oct":506.2,"jl_prize":4000.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"곽보미","jisa":"지에이스타금융서비스(주) 밸류코어지점","fc":"권봉기","code":"4BHT74","type":"인브릿지대상","done":"미달성","design":1,"in_sept":123.5,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":58.6,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":0.0,"jl_done":"미달성"},{"mgr":"김세희","jisa":"인카금융서비스(주)스카이본부","fc":"임수지","code":"4ANL27","type":"주력브릿지대상","done":"달성","design":23,"in_sept":193.3,"in_oct":110.3,"in_prize":200.0,"in_remain":0.0,"in_done":"달성","jl_sept":193.3,"jl_oct":110.3,"jl_prize":800.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"김세희","jisa":"더베스트 이재명 인천","fc":"성다원","code":"4NZ025","type":"주력브릿지대상","done":"미달성","design":2,"in_sept":216.0,"in_oct":0.0,"in_prize":0.0,"in_remain":200.0,"in_done":"미달성","jl_sept":216.0,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":200.0,"jl_done":"미달성"},{"mgr":"김세희","jisa":"더베스트 이재명 인천","fc":"성말례","code":"4AZZ89","type":"주력브릿지대상","done":"미달성","design":59,"in_sept":122.6,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":122.6,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"김세희","jisa":"더베스트 이재명 구미","fc":"유인숙","code":"4QH763","type":"주력브릿지대상","done":"달성","design":13,"in_sept":1102.7,"in_oct":500.0,"in_prize":3000.0,"in_remain":0.0,"in_done":"달성","jl_sept":1102.7,"jl_oct":500.0,"jl_prize":4000.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"김세희","jisa":"더베스트 이재명 구미","fc":"조순경","code":"4QJ809","type":"주력브릿지대상","done":"달성","design":8,"in_sept":801.1,"in_oct":300.0,"in_prize":1500.0,"in_remain":200.0,"in_done":"추가달성필요","jl_sept":801.1,"jl_oct":300.0,"jl_prize":2400.0,"jl_remain":200.0,"jl_done":"추가달성필요"},{"mgr":"김지혜","jisa":"(주)인슈코아 평택지점","fc":"한성구","code":"49755F","type":"주력브릿지대상","done":"","design":13,"in_sept":126.3,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":106.6,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"김지혜","jisa":"프라임에셋(주) 평택8지점","fc":"이상일","code":"48904B","type":"인브릿지대상","done":"미달성","design":13,"in_sept":190.9,"in_oct":131.7,"in_prize":200.0,"in_remain":0.0,"in_done":"달성","jl_sept":0.0,"jl_oct":131.7,"jl_prize":0.0,"jl_remain":0.0,"jl_done":"미달성"},{"mgr":"김지혜","jisa":"프라임에셋(주) 평택3지점","fc":"심주연","code":"4HT043","type":"인브릿지대상","done":"미달성","design":15,"in_sept":137.1,"in_oct":104.5,"in_prize":200.0,"in_remain":0.0,"in_done":"달성","jl_sept":62.5,"jl_oct":38.1,"jl_prize":0.0,"jl_remain":0.0,"jl_done":"미달성"},{"mgr":"김지혜","jisa":"(주)글로벌금융판매케이에스두레평택","fc":"김기천","code":"48490L","type":"주력브릿지대상","done":"달성","design":6,"in_sept":203.6,"in_oct":203.1,"in_prize":800.0,"in_remain":0.0,"in_done":"달성","jl_sept":203.6,"jl_oct":203.1,"jl_prize":1600.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"김지혜","jisa":"지에이코리아(주)다온드림투","fc":"김봉영","code":"4FD191","type":"주력브릿지대상","done":"미달성","design":13,"in_sept":118.9,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":118.9,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"김지혜","jisa":"지에이코리아(주)다온드림투","fc":"최해숙","code":"4FX851","type":"인브릿지대상","done":"미달성","design":16,"in_sept":108.6,"in_oct":55.0,"in_prize":0.0,"in_remain":45.0,"in_done":"미달성","jl_sept":0.0,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":0.0,"jl_done":"미달성"},{"mgr":"김지혜","jisa":"지에이코리아(주) 에셋마스터오케이지점","fc":"한주옥","code":"4BQK38","type":"주력브릿지대상","done":"달성","design":112,"in_sept":164.4,"in_oct":286.1,"in_prize":200.0,"in_remain":0.0,"in_done":"달성","jl_sept":164.4,"jl_oct":286.1,"jl_prize":800.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융지점","fc":"김수진","code":"4CEY70","type":"주력브릿지대상","done":"달성","design":13,"in_sept":203.7,"in_oct":201.6,"in_prize":800.0,"in_remain":0.0,"in_done":"달성","jl_sept":203.7,"jl_oct":201.6,"jl_prize":1600.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융지점","fc":"박근자","code":"4JT519","type":"주력브릿지대상","done":"미달성","design":16,"in_sept":121.7,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":121.7,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융지점","fc":"신동조","code":"4BJF26","type":"주력브릿지대상","done":"달성","design":14,"in_sept":226.0,"in_oct":217.8,"in_prize":800.0,"in_remain":0.0,"in_done":"달성","jl_sept":226.0,"jl_oct":217.8,"jl_prize":1600.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융지점","fc":"안병수","code":"4HO376","type":"주력브릿지대상","done":"달성","design":31,"in_sept":110.0,"in_oct":101.0,"in_prize":200.0,"in_remain":0.0,"in_done":"달성","jl_sept":100.0,"jl_oct":101.0,"jl_prize":800.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융지점","fc":"이영임","code":"4QB681","type":"주력브릿지대상","done":"미달성","design":8,"in_sept":137.5,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":137.5,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융지점","fc":"이호","code":"4PR416","type":"인브릿지대상","done":"미달성","design":16,"in_sept":262.2,"in_oct":100.3,"in_prize":200.0,"in_remain":99.7,"in_done":"추가달성필요","jl_sept":73.8,"jl_oct":100.3,"jl_prize":0.0,"jl_remain":0.0,"jl_done":"미달성"},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융지점","fc":"최남금","code":"4GG298","type":"주력브릿지대상","done":"달성","design":36,"in_sept":172.7,"in_oct":254.3,"in_prize":200.0,"in_remain":0.0,"in_done":"달성","jl_sept":160.4,"jl_oct":194.2,"jl_prize":800.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융수원지점","fc":"이재경","code":"4NF635","type":"주력브릿지대상","done":"달성","design":22,"in_sept":116.1,"in_oct":293.4,"in_prize":200.0,"in_remain":0.0,"in_done":"달성","jl_sept":116.1,"jl_oct":293.4,"jl_prize":800.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융수원지점","fc":"이혜경","code":"4BHI89","type":"주력브릿지대상","done":"미달성","design":7,"in_sept":104.6,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":104.6,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융수원지점","fc":"홍수진","code":"4BFR54","type":"주력브릿지대상","done":"미달성","design":51,"in_sept":105.0,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":105.0,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융수원지점","fc":"황윤숙","code":"4PH046","type":"주력브릿지대상","done":"미달성","design":0,"in_sept":324.4,"in_oct":0.0,"in_prize":0.0,"in_remain":300.0,"in_done":"미달성","jl_sept":272.1,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":200.0,"jl_done":"미달성"},{"mgr":"김지혜","jisa":"(주)엠금융서비스 뉴월드지점","fc":"김영수","code":"4BB974","type":"주력브릿지대상","done":"달성","design":14,"in_sept":100.0,"in_oct":107.0,"in_prize":200.0,"in_remain":0.0,"in_done":"달성","jl_sept":100.0,"jl_oct":107.0,"jl_prize":800.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"김지혜","jisa":"(주)엠금융서비스 코리아인슈","fc":"안재범","code":"4BC019","type":"주력브릿지대상","done":"달성","design":13,"in_sept":292.7,"in_oct":330.9,"in_prize":800.0,"in_remain":0.0,"in_done":"달성","jl_sept":292.7,"jl_oct":330.9,"jl_prize":1600.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"김지혜","jisa":"(주)엠금융서비스 하나로랜드마크인슈","fc":"김숙희","code":"4FE102","type":"인브릿지대상","done":"미달성","design":0,"in_sept":101.0,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":53.9,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":0.0,"jl_done":"미달성"},{"mgr":"김지혜","jisa":"한화피플라이프㈜평택금융","fc":"박은숙","code":"4ACG24","type":"인브릿지대상","done":"미달성","design":8,"in_sept":146.0,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":45.4,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":0.0,"jl_done":"미달성"},{"mgr":"김지혜","jisa":"한화피플라이프㈜평택","fc":"이상준","code":"4QB550","type":"주력브릿지대상","done":"달성","design":60,"in_sept":485.4,"in_oct":377.5,"in_prize":1500.0,"in_remain":22.5,"in_done":"추가달성필요","jl_sept":461.3,"jl_oct":377.5,"jl_prize":2400.0,"jl_remain":22.5,"jl_done":"추가달성필요"},{"mgr":"김지혜","jisa":"한화피플라이프㈜평택","fc":"이은영","code":"4KQ410","type":"인브릿지대상","done":"미달성","design":0,"in_sept":100.0,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":0.0,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":0.0,"jl_done":"미달성"},{"mgr":"김지혜","jisa":"삼성금융파트너스 미도","fc":"이인성","code":"4LV071","type":"주력브릿지대상","done":"달성","design":31,"in_sept":222.9,"in_oct":202.0,"in_prize":800.0,"in_remain":0.0,"in_done":"달성","jl_sept":222.9,"jl_oct":202.0,"jl_prize":1600.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"김지혜","jisa":"더베스트 이재명 평택센터","fc":"임현숙","code":"4DV061","type":"주력브릿지대상","done":"달성","design":41,"in_sept":357.6,"in_oct":389.2,"in_prize":1500.0,"in_remain":0.0,"in_done":"달성","jl_sept":357.6,"jl_oct":389.2,"jl_prize":2400.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"김지혜","jisa":"신한금융플러스 주식회사 쥬피터지점","fc":"김용태","code":"4IP253","type":"주력브릿지대상","done":"미달성","design":13,"in_sept":245.0,"in_oct":0.0,"in_prize":0.0,"in_remain":200.0,"in_done":"미달성","jl_sept":245.0,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":200.0,"jl_done":"미달성"},{"mgr":"김지혜","jisa":"(주)카라멜에셋 하이","fc":"배은선","code":"4BZF75","type":"인브릿지대상","done":"미달성","design":4,"in_sept":147.9,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":0.0,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":0.0,"jl_done":"미달성"},{"mgr":"김지혜","jisa":"(주)카라멜에셋 하이","fc":"최경순","code":"4BZF79","type":"주력브릿지대상","done":"달성","design":27,"in_sept":129.4,"in_oct":326.9,"in_prize":200.0,"in_remain":0.0,"in_done":"달성","jl_sept":119.4,"jl_oct":326.9,"jl_prize":800.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"김지혜","jisa":"(주)카라멜에셋 하이","fc":"허준","code":"4AKD90","type":"주력브릿지대상","done":"달성","design":52,"in_sept":227.2,"in_oct":330.0,"in_prize":800.0,"in_remain":0.0,"in_done":"달성","jl_sept":118.9,"jl_oct":330.0,"jl_prize":800.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"김효진","jisa":"트루평택지점","fc":"곽승미","code":"4AKK97","type":"주력브릿지대상","done":"달성","design":17,"in_sept":200.5,"in_oct":204.3,"in_prize":800.0,"in_remain":0.0,"in_done":"달성","jl_sept":200.5,"jl_oct":204.3,"jl_prize":1600.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"김효진","jisa":"신한금융플러스 주식회사 지에프송탄지점","fc":"강춘자","code":"4IB770","type":"주력브릿지대상","done":"미달성","design":6,"in_sept":232.8,"in_oct":0.0,"in_prize":0.0,"in_remain":200.0,"in_done":"미달성","jl_sept":232.8,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":200.0,"jl_done":"미달성"},{"mgr":"김효진","jisa":"신한금융플러스 주식회사 지에프송탄지점","fc":"김혜정","code":"4IC496","type":"주력브릿지대상","done":"달성","design":9,"in_sept":300.0,"in_oct":124.3,"in_prize":200.0,"in_remain":175.7,"in_done":"추가달성필요","jl_sept":300.0,"jl_oct":124.3,"jl_prize":800.0,"jl_remain":175.7,"jl_done":"추가달성필요"},{"mgr":"김희선","jisa":"(주)글로벌금융판매 대한라이프평택","fc":"김미경","code":"4QS445","type":"주력브릿지대상","done":"미달성","design":9,"in_sept":112.5,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":112.5,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"김희선","jisa":"한화생명금융서비스효승지점","fc":"한수정","code":"4JL353","type":"인브릿지대상","done":"미달성","design":0,"in_sept":101.8,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":0.0,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":0.0,"jl_done":"미달성"},{"mgr":"김희선","jisa":"더금융서비스 명문지점","fc":"김연오","code":"4BPK85","type":"주력브릿지대상","done":"미달성","design":0,"in_sept":100.5,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":100.5,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"김희선","jisa":"더금융서비스 명문지점","fc":"이승훈","code":"4AEP79","type":"주력브릿지대상","done":"미달성","design":7,"in_sept":160.9,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":160.9,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"김희선","jisa":"더금융서비스 명문지점","fc":"최민희","code":"4BTR33","type":"주력브릿지대상","done":"미달성","design":0,"in_sept":306.2,"in_oct":0.0,"in_prize":0.0,"in_remain":300.0,"in_done":"미달성","jl_sept":306.2,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":300.0,"jl_done":"미달성"},{"mgr":"박미선","jisa":"더좋은보험금융(주)화성","fc":"이재순","code":"48396R","type":"주력브릿지대상","done":"미달성","design":11,"in_sept":131.3,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":105.0,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"박미선","jisa":"현대홈 하남미사","fc":"김정숙","code":"4BWW67","type":"주력브릿지대상","done":"달성","design":37,"in_sept":101.6,"in_oct":102.4,"in_prize":200.0,"in_remain":0.0,"in_done":"달성","jl_sept":101.6,"jl_oct":102.4,"jl_prize":800.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"이슬","jisa":"현대홈 강북","fc":"김태인","code":"4NI051","type":"주력브릿지대상","done":"미달성","design":7,"in_sept":204.1,"in_oct":0.0,"in_prize":0.0,"in_remain":200.0,"in_done":"미달성","jl_sept":194.1,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"김세희","jisa":"현대홈 부천","fc":"김한슬","code":"4LV843","type":"주력브릿지대상","done":"미달성","design":0,"in_sept":137.0,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":137.0,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"박미선","jisa":"현대홈 용인","fc":"모미경","code":"4MZ885","type":"주력브릿지대상","done":"달성","design":32,"in_sept":306.4,"in_oct":494.4,"in_prize":1500.0,"in_remain":0.0,"in_done":"달성","jl_sept":306.4,"jl_oct":494.4,"jl_prize":2400.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"박미선","jisa":"현대홈 용인","fc":"문영순","code":"4BQJ05","type":"주력브릿지대상","done":"달성","design":17,"in_sept":503.8,"in_oct":215.3,"in_prize":800.0,"in_remain":284.7,"in_done":"추가달성필요","jl_sept":503.8,"jl_oct":215.3,"jl_prize":1600.0,"jl_remain":284.7,"jl_done":"추가달성필요"},{"mgr":"박미선","jisa":"현대홈 용인","fc":"박소연","code":"4ACB48","type":"주력브릿지대상","done":"미달성","design":22,"in_sept":115.1,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":115.1,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"박미선","jisa":"현대홈 용인","fc":"송민경","code":"4KQ760","type":"주력브릿지대상","done":"미달성","design":0,"in_sept":132.7,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":132.7,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"이슬","jisa":"현대홈 강북","fc":"이숙현","code":"4NI046","type":"주력브릿지대상","done":"미달성","design":2,"in_sept":502.4,"in_oct":0.0,"in_prize":0.0,"in_remain":500.0,"in_done":"미달성","jl_sept":502.4,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":500.0,"jl_done":"미달성"},{"mgr":"김세희","jisa":"현대홈 빅트리","fc":"이순미","code":"4BDN38","type":"주력브릿지대상","done":"미달성","design":5,"in_sept":135.5,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":135.5,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"김효진","jisa":"현대홈 화성","fc":"이정아","code":"4KQ597","type":"주력브릿지대상","done":"미달성","design":10,"in_sept":207.9,"in_oct":20.5,"in_prize":0.0,"in_remain":179.5,"in_done":"미달성","jl_sept":207.9,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":200.0,"jl_done":"미달성"},{"mgr":"김효진","jisa":"현대홈 동탄(송)","fc":"이현미","code":"4PL573","type":"주력브릿지대상","done":"미달성","design":15,"in_sept":202.2,"in_oct":0.0,"in_prize":0.0,"in_remain":200.0,"in_done":"미달성","jl_sept":202.2,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":200.0,"jl_done":"미달성"},{"mgr":"박미선","jisa":"현대홈 용인","fc":"이현서","code":"4RF259","type":"인브릿지대상","done":"미달성","design":30,"in_sept":105.9,"in_oct":99.0,"in_prize":0.0,"in_remain":1.0,"in_done":"미달성","jl_sept":78.9,"jl_oct":99.0,"jl_prize":0.0,"jl_remain":0.0,"jl_done":"미달성"},{"mgr":"박미선","jisa":"현대홈 용인","fc":"전근자","code":"4BQJ04","type":"주력브릿지대상","done":"미달성","design":5,"in_sept":107.9,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":107.9,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"박미선","jisa":"현대홈 용인","fc":"함승민","code":"4MM496","type":"주력브릿지대상","done":"미달성","design":36,"in_sept":346.0,"in_oct":0.0,"in_prize":0.0,"in_remain":300.0,"in_done":"미달성","jl_sept":346.0,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":300.0,"jl_done":"미달성"},{"mgr":"박미선","jisa":"인카금융서비스(주)가온누리","fc":"박미순","code":"41777V","type":"주력브릿지대상","done":"미달성","design":5,"in_sept":113.7,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":113.7,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"박미선","jisa":"인카금융서비스 주식회사 가온에셋지점","fc":"송주아","code":"4AMT37","type":"주력브릿지대상","done":"미달성","design":6,"in_sept":148.1,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":148.1,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"박미선","jisa":"케이지에이에셋(주) 마스타인스지점","fc":"송미숙","code":"4BDZ11","type":"주력브릿지대상","done":"달성","design":14,"in_sept":263.7,"in_oct":206.7,"in_prize":800.0,"in_remain":0.0,"in_done":"달성","jl_sept":263.7,"jl_oct":206.7,"jl_prize":1600.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"박미선","jisa":"케이지에이에셋(주) 마스타인스지점","fc":"장길수","code":"4APV23","type":"주력브릿지대상","done":"미달성","design":7,"in_sept":548.2,"in_oct":24.1,"in_prize":0.0,"in_remain":475.9,"in_done":"미달성","jl_sept":532.6,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":500.0,"jl_done":"미달성"},{"mgr":"박미선","jisa":"(주)엠금융서비스 우리동탄","fc":"김병순","code":"44067T","type":"주력브릿지대상","done":"달성","design":4,"in_sept":263.9,"in_oct":134.9,"in_prize":200.0,"in_remain":65.1,"in_done":"추가달성필요","jl_sept":263.9,"jl_oct":134.9,"jl_prize":800.0,"jl_remain":65.1,"jl_done":"추가달성필요"},{"mgr":"박미선","jisa":"(주)엠금융서비스 우리동탄","fc":"정혜숙","code":"47483E","type":"주력브릿지대상","done":"미달성","design":5,"in_sept":145.6,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":145.6,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"박미선","jisa":"미래에셋금융서비스(주) 그로우지사","fc":"김나래","code":"4BYW56","type":"주력브릿지대상","done":"달성","design":18,"in_sept":407.7,"in_oct":100.4,"in_prize":200.0,"in_remain":299.6,"in_done":"추가달성필요","jl_sept":407.7,"jl_oct":100.4,"jl_prize":800.0,"jl_remain":299.6,"jl_done":"추가달성필요"},{"mgr":"박미선","jisa":"미래에셋금융서비스(주) 그로우지사","fc":"김덕규","code":"4BSR91","type":"주력브릿지대상","done":"달성","design":35,"in_sept":305.5,"in_oct":393.7,"in_prize":1500.0,"in_remain":0.0,"in_done":"달성","jl_sept":305.5,"jl_oct":393.7,"jl_prize":2400.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"박미선","jisa":"주식회사원금융서비스 엠브이피지점","fc":"권유미","code":"4SK553","type":"주력브릿지대상","done":"미달성","design":23,"in_sept":283.3,"in_oct":35.9,"in_prize":0.0,"in_remain":164.1,"in_done":"미달성","jl_sept":283.3,"jl_oct":35.9,"jl_prize":0.0,"jl_remain":164.1,"jl_done":"미달성"},{"mgr":"박미선","jisa":"주식회사원금융서비스 엠브이피지점","fc":"김지혜","code":"4NT143","type":"주력브릿지대상","done":"달성","design":66,"in_sept":584.0,"in_oct":375.8,"in_prize":1500.0,"in_remain":124.2,"in_done":"추가달성필요","jl_sept":563.7,"jl_oct":263.7,"jl_prize":1600.0,"jl_remain":236.3,"jl_done":"추가달성필요"},{"mgr":"이슬","jisa":"더블유에셋(주) 오산스마트본부","fc":"강윤미","code":"4JS520","type":"주력브릿지대상","done":"달성","design":3,"in_sept":307.4,"in_oct":204.5,"in_prize":800.0,"in_remain":95.5,"in_done":"추가달성필요","jl_sept":269.4,"jl_oct":204.5,"jl_prize":1600.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"이슬","jisa":"더블유에셋(주) 오산스마트본부","fc":"김미경","code":"4PI948","type":"주력브릿지대상","done":"달성","design":6,"in_sept":119.1,"in_oct":138.3,"in_prize":200.0,"in_remain":0.0,"in_done":"달성","jl_sept":119.1,"jl_oct":120.5,"jl_prize":800.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"이슬","jisa":"더블유에셋(주) 오산스마트본부","fc":"이미화","code":"4AAC19","type":"주력브릿지대상","done":"달성","design":9,"in_sept":203.3,"in_oct":102.9,"in_prize":200.0,"in_remain":97.1,"in_done":"추가달성필요","jl_sept":203.3,"jl_oct":102.9,"jl_prize":800.0,"jl_remain":97.1,"jl_done":"추가달성필요"},{"mgr":"장현화","jisa":"(주)에이플러스에셋동탄지점","fc":"김경화","code":"4BWE14","type":"주력브릿지대상","done":"미달성","design":7,"in_sept":110.8,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":110.8,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"장현화","jisa":"(주)에이플러스에셋동탄지점","fc":"김금연","code":"42421S","type":"주력브릿지대상","done":"미달성","design":26,"in_sept":218.3,"in_oct":0.0,"in_prize":0.0,"in_remain":200.0,"in_done":"미달성","jl_sept":218.3,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":200.0,"jl_done":"미달성"},{"mgr":"장현화","jisa":"(주)에이플러스에셋동탄지점","fc":"선기숙","code":"4BWE13","type":"주력브릿지대상","done":"달성","design":12,"in_sept":130.6,"in_oct":117.0,"in_prize":200.0,"in_remain":0.0,"in_done":"달성","jl_sept":130.6,"jl_oct":101.4,"jl_prize":800.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"장현화","jisa":"(주)에이플러스에셋동탄지점","fc":"신정림","code":"4BZY55","type":"주력브릿지대상","done":"미달성","design":2,"in_sept":202.2,"in_oct":0.0,"in_prize":0.0,"in_remain":200.0,"in_done":"미달성","jl_sept":202.2,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":200.0,"jl_done":"미달성"},{"mgr":"장현화","jisa":"(주)에이플러스에셋동탄지점","fc":"정미정","code":"4CDE61","type":"주력브릿지대상","done":"미달성","design":0,"in_sept":101.4,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":101.4,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"장현화","jisa":"(주)에이플러스에셋동탄지점","fc":"최영인","code":"41068Y","type":"주력브릿지대상","done":"미달성","design":2,"in_sept":129.7,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":129.7,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"장현화","jisa":"(주)에이플러스에셋동탄지점","fc":"한태범","code":"4SU410","type":"인브릿지대상","done":"미달성","design":0,"in_sept":134.1,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":0.0,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":0.0,"jl_done":"미달성"},{"mgr":"장현화","jisa":"프라임에셋(주)동탄2지점","fc":"김시내","code":"4BNW80","type":"주력브릿지대상","done":"달성","design":33,"in_sept":471.3,"in_oct":444.0,"in_prize":2000.0,"in_remain":0.0,"in_done":"달성","jl_sept":271.9,"jl_oct":444.0,"jl_prize":1600.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"장현화","jisa":"KGA글로벌 수원","fc":"하숙희","code":"44151W","type":"주력브릿지대상","done":"달성","design":7,"in_sept":151.2,"in_oct":101.1,"in_prize":200.0,"in_remain":0.0,"in_done":"달성","jl_sept":151.2,"jl_oct":101.1,"jl_prize":800.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"장현화","jisa":"지에이스타금융서비스(주) 위드라이프코어지점","fc":"선나영","code":"4AAQ34","type":"인브릿지대상","done":"미달성","design":3,"in_sept":144.2,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":0.0,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":0.0,"jl_done":"미달성"},{"mgr":"김세희","jisa":"더베스트 김효제 경기VIP","fc":"김진희","code":"4PC666","type":"주력브릿지대상","done":"미달성","design":6,"in_sept":147.9,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":120.7,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"김효진","jisa":"더베스트 김효제 남양","fc":"이경애","code":"4AEV00","type":"주력브릿지대상","done":"미달성","design":6,"in_sept":138.3,"in_oct":45.0,"in_prize":0.0,"in_remain":55.0,"in_done":"미달성","jl_sept":105.2,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":100.0,"jl_done":"미달성"},{"mgr":"김효진","jisa":"더베스트 김효제 남양","fc":"임경란","code":"4HU997","type":"인브릿지대상","done":"미달성","design":1,"in_sept":105.2,"in_oct":0.0,"in_prize":0.0,"in_remain":100.0,"in_done":"미달성","jl_sept":83.9,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":0.0,"jl_done":"미달성"},{"mgr":"김세희","jisa":"더베스트 김효제 청라","fc":"한지우","code":"4PF308","type":"주력브릿지대상","done":"달성","design":13,"in_sept":119.5,"in_oct":263.1,"in_prize":200.0,"in_remain":0.0,"in_done":"달성","jl_sept":119.5,"jl_oct":263.1,"jl_prize":800.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"장현화","jisa":"주식회사 디딤돌에셋","fc":"김가영","code":"4PK652","type":"주력브릿지대상","done":"달성","design":5,"in_sept":102.2,"in_oct":127.8,"in_prize":200.0,"in_remain":0.0,"in_done":"달성","jl_sept":102.2,"jl_oct":127.8,"jl_prize":800.0,"jl_remain":0.0,"jl_done":"달성"},{"mgr":"장현화","jisa":"주식회사 디딤돌에셋","fc":"최진혁","code":"4NW478","type":"주력브릿지대상","done":"미달성","design":47,"in_sept":236.0,"in_oct":0.0,"in_prize":0.0,"in_remain":200.0,"in_done":"미달성","jl_sept":236.0,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":200.0,"jl_done":"미달성"},{"mgr":"장현화","jisa":"주식회사 지금융코리아 시온인스케어","fc":"정은경","code":"4HO063","type":"주력브릿지대상","done":"미달성","design":23,"in_sept":250.7,"in_oct":0.0,"in_prize":0.0,"in_remain":200.0,"in_done":"미달성","jl_sept":237.2,"jl_oct":0.0,"jl_prize":0.0,"jl_remain":200.0,"jl_done":"미달성"}];
+const BRIDGE_1011_DATA=[{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융지점","fc":"유정은","code":"4HO372","type":"주력브릿지대상","need":60.54,"design":6,"in_oct":39.46,"in_nov":0,"in_prize":0.0,"in_upper":60.54,"jl_oct":39.46,"jl_nov":0,"jl_prize":0.0,"jl_upper":60.54},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융지점","fc":"이영임","code":"4QB681","type":"주력브릿지대상","need":53.81,"design":8,"in_oct":246.19,"in_nov":0,"in_prize":800.0,"in_upper":53.81,"jl_oct":246.19,"jl_nov":0,"jl_prize":800.0,"jl_upper":53.81},{"mgr":"김지혜","jisa":"지에이코리아(주) 에셋마스터오케이지점","fc":"한주옥","code":"4BQK38","type":"주력브릿지대상","need":97.44,"design":112,"in_oct":102.56,"in_nov":0,"in_prize":200.0,"in_upper":97.44,"jl_oct":102.56,"jl_nov":0,"jl_prize":400.0,"jl_upper":97.44},{"mgr":"김지혜","jisa":"한화피플라이프㈜평택","fc":"이상준","code":"4QB550","type":"인브릿지대상","need":100.0,"design":60,"in_oct":51.77,"in_nov":0,"in_prize":0.0,"in_upper":48.23,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"김지혜","jisa":"한화피플라이프㈜평택","fc":"김태범","code":"4AWD17","type":"주력브릿지대상","need":86.66,"design":1,"in_oct":113.34,"in_nov":0,"in_prize":200.0,"in_upper":86.66,"jl_oct":113.34,"jl_nov":0,"jl_prize":400.0,"jl_upper":86.66},{"mgr":"김지혜","jisa":"한화피플라이프㈜평택","fc":"이이슬","code":"4ST286","type":"주력브릿지대상","need":53.18,"design":15,"in_oct":246.82,"in_nov":0,"in_prize":800.0,"in_upper":53.18,"jl_oct":246.82,"jl_nov":0,"jl_prize":800.0,"jl_upper":53.18},{"mgr":"김지혜","jisa":"(주)엠금융서비스 뉴월드지점","fc":"김영수","code":"4BB974","type":"주력브릿지대상","need":95.65,"design":14,"in_oct":104.35,"in_nov":0,"in_prize":200.0,"in_upper":95.65,"jl_oct":104.35,"jl_nov":0,"jl_prize":400.0,"jl_upper":95.65},{"mgr":"김지혜","jisa":"(주)인슈코아 평택지점","fc":"남혜진","code":"43848Y","type":"인브릿지대상","need":100.0,"design":19,"in_oct":13.0,"in_nov":0,"in_prize":0.0,"in_upper":87.0,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융수원지점","fc":"김부경","code":"4ARL16","type":"주력브릿지대상","need":43.32,"design":12,"in_oct":156.68,"in_nov":0,"in_prize":200.0,"in_upper":43.32,"jl_oct":156.68,"jl_nov":0,"jl_prize":400.0,"jl_upper":43.32},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융수원지점","fc":"이재경","code":"4NF635","type":"주력브릿지대상","need":77.55,"design":22,"in_oct":222.53,"in_nov":0,"in_prize":800.0,"in_upper":77.47,"jl_oct":122.45,"jl_nov":0,"jl_prize":400.0,"jl_upper":77.55},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융수원지점","fc":"홍수진","code":"4BFR54","type":"주력브릿지대상","need":24.55,"design":51,"in_oct":75.45,"in_nov":0,"in_prize":0.0,"in_upper":24.55,"jl_oct":75.45,"jl_nov":0,"jl_prize":0.0,"jl_upper":24.55},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융수원지점","fc":"박은미","code":"4HT335","type":"주력브릿지대상","need":61.15,"design":3,"in_oct":138.85,"in_nov":0,"in_prize":200.0,"in_upper":61.15,"jl_oct":138.85,"jl_nov":0,"jl_prize":400.0,"jl_upper":61.15},{"mgr":"김지혜","jisa":"지에이코리아(주)다온드림투","fc":"김봉영","code":"4FD191","type":"주력브릿지대상","need":34.85,"design":13,"in_oct":79.22,"in_nov":0,"in_prize":0.0,"in_upper":20.78,"jl_oct":65.15,"jl_nov":0,"jl_prize":0.0,"jl_upper":34.85},{"mgr":"김지혜","jisa":"신한금융플러스 주식회사 쥬피터지점","fc":"김용태","code":"4IP253","type":"주력브릿지대상","need":83.03,"design":13,"in_oct":116.97,"in_nov":0,"in_prize":200.0,"in_upper":83.03,"jl_oct":116.97,"jl_nov":0,"jl_prize":400.0,"jl_upper":83.03},{"mgr":"김지혜","jisa":"지에이스타금융서비스(주) 베스트금융지점","fc":"박근자","code":"4JT519","type":"주력브릿지대상","need":87.79,"design":16,"in_oct":212.21,"in_nov":0,"in_prize":800.0,"in_upper":87.79,"jl_oct":212.21,"jl_nov":0,"jl_prize":800.0,"jl_upper":87.79},{"mgr":"김지혜","jisa":"(주)카라멜에셋 하이","fc":"전효희","code":"4CFW96","type":"주력브릿지대상","need":80.45,"design":16,"in_oct":319.55,"in_nov":0,"in_prize":1500.0,"in_upper":80.45,"jl_oct":319.55,"jl_nov":0,"jl_prize":1200.0,"jl_upper":80.45},{"mgr":"김지혜","jisa":"(주)카라멜에셋 하이","fc":"최경순","code":"4BZF79","type":"인브릿지대상","need":100.0,"design":27,"in_oct":19.16,"in_nov":0,"in_prize":0.0,"in_upper":80.84,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"김지혜","jisa":"(주)카라멜에셋 하이","fc":"허준","code":"4AKD90","type":"주력브릿지대상","need":57.95,"design":52,"in_oct":242.05,"in_nov":0,"in_prize":800.0,"in_upper":57.95,"jl_oct":242.05,"jl_nov":0,"jl_prize":800.0,"jl_upper":57.95},{"mgr":"박미선","jisa":"미래에셋금융서비스(주) 그로우지사","fc":"김덕규","code":"4BSR91","type":"주력브릿지대상","need":48.17,"design":35,"in_oct":361.83,"in_nov":0,"in_prize":1500.0,"in_upper":38.17,"jl_oct":351.83,"jl_nov":0,"jl_prize":1200.0,"jl_upper":48.17},{"mgr":"박미선","jisa":"미래에셋금융서비스(주) 그로우지사","fc":"주성준","code":"4CDR58","type":"인브릿지대상","need":100.0,"design":11,"in_oct":108.28,"in_nov":0,"in_prize":200.0,"in_upper":91.72,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"박미선","jisa":"주식회사원금융서비스 엠브이피지점","fc":"김지혜","code":"4NT143","type":"주력브릿지대상","need":24.27,"design":66,"in_oct":275.73,"in_nov":0,"in_prize":800.0,"in_upper":24.27,"jl_oct":275.73,"jl_nov":0,"jl_prize":800.0,"jl_upper":24.27},{"mgr":"박미선","jisa":"케이지에이에셋(주) 마스타인스지점","fc":"송미숙","code":"4BDZ11","type":"주력브릿지대상","need":15.55,"design":14,"in_oct":84.45,"in_nov":0,"in_prize":0.0,"in_upper":15.55,"jl_oct":84.45,"jl_nov":0,"jl_prize":0.0,"jl_upper":15.55},{"mgr":"박미선","jisa":"케이지에이에셋(주) 마스타인스지점","fc":"장길수","code":"4APV23","type":"주력브릿지대상","need":24.7,"design":7,"in_oct":189.28,"in_nov":0,"in_prize":200.0,"in_upper":10.72,"jl_oct":175.3,"jl_nov":0,"jl_prize":400.0,"jl_upper":24.7},{"mgr":"박미선","jisa":"현대홈 용인","fc":"모미경","code":"4MZ885","type":"주력브릿지대상","need":29.19,"design":32,"in_oct":482.57,"in_nov":0,"in_prize":2000.0,"in_upper":17.43,"jl_oct":470.81,"jl_nov":0,"jl_prize":1600.0,"jl_upper":29.19},{"mgr":"박미선","jisa":"현대홈 용인","fc":"함승민","code":"4MM496","type":"주력브릿지대상","need":15.87,"design":36,"in_oct":84.13,"in_nov":0,"in_prize":0.0,"in_upper":15.87,"jl_oct":84.13,"jl_nov":0,"jl_prize":0.0,"jl_upper":15.87},{"mgr":"박미선","jisa":"현대홈 용인","fc":"구두향","code":"4QZ823","type":"주력브릿지대상","need":69.2,"design":6,"in_oct":30.8,"in_nov":0,"in_prize":0.0,"in_upper":69.2,"jl_oct":30.8,"jl_nov":0,"jl_prize":0.0,"jl_upper":69.2},{"mgr":"박미선","jisa":"현대홈 용인","fc":"이지은","code":"4AVI90","type":"주력브릿지대상","need":43.26,"design":9,"in_oct":56.74,"in_nov":0,"in_prize":0.0,"in_upper":43.26,"jl_oct":56.74,"jl_nov":0,"jl_prize":0.0,"jl_upper":43.26},{"mgr":"박미선","jisa":"현대홈 용인","fc":"김승희","code":"4AWB17","type":"주력브릿지대상","need":35.13,"design":12,"in_oct":64.87,"in_nov":0,"in_prize":0.0,"in_upper":35.13,"jl_oct":64.87,"jl_nov":0,"jl_prize":0.0,"jl_upper":35.13},{"mgr":"박미선","jisa":"현대홈 용인","fc":"박희원","code":"4BTR03","type":"주력브릿지대상","need":71.41,"design":8,"in_oct":128.59,"in_nov":0,"in_prize":200.0,"in_upper":71.41,"jl_oct":128.59,"jl_nov":0,"jl_prize":400.0,"jl_upper":71.41},{"mgr":"박미선","jisa":"현대홈 용인","fc":"김상미","code":"4SJ051","type":"주력브릿지대상","need":34.2,"design":9,"in_oct":65.8,"in_nov":0,"in_prize":0.0,"in_upper":34.2,"jl_oct":65.8,"jl_nov":0,"jl_prize":0.0,"jl_upper":34.2},{"mgr":"박미선","jisa":"인카금융서비스(주)가온누리","fc":"허선","code":"4NA679","type":"인브릿지대상","need":100.0,"design":6,"in_oct":46.89,"in_nov":0,"in_prize":0.0,"in_upper":53.11,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"박미선","jisa":"더좋은보험금융(주)화성","fc":"박희숙","code":"45342W","type":"주력브릿지대상","need":36.4,"design":4,"in_oct":63.6,"in_nov":0,"in_prize":0.0,"in_upper":36.4,"jl_oct":63.6,"jl_nov":0,"jl_prize":0.0,"jl_upper":36.4},{"mgr":"박미선","jisa":"(주)삼성화재금융서비스보험대리점 보장연구소","fc":"성지연","code":"4BUL89","type":"인브릿지대상","need":100.0,"design":4,"in_oct":42.21,"in_nov":0,"in_prize":0.0,"in_upper":57.79,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"박미선","jisa":"현대홈 용인","fc":"김혜란","code":"4AJD88","type":"주력브릿지대상","need":39.19,"design":48,"in_oct":60.81,"in_nov":0,"in_prize":0.0,"in_upper":39.19,"jl_oct":60.81,"jl_nov":0,"jl_prize":0.0,"jl_upper":39.19},{"mgr":"박미선","jisa":"주식회사원금융서비스 엠브이피지점","fc":"김주희","code":"4NP402","type":"주력브릿지대상","need":60.7,"design":31,"in_oct":139.3,"in_nov":0,"in_prize":200.0,"in_upper":60.7,"jl_oct":139.3,"jl_nov":0,"jl_prize":400.0,"jl_upper":60.7},{"mgr":"박미선","jisa":"현대홈 하남미사","fc":"장혜진","code":"4AZU47","type":"주력브릿지대상","need":67.14,"design":3,"in_oct":32.86,"in_nov":0,"in_prize":0.0,"in_upper":67.14,"jl_oct":32.86,"jl_nov":0,"jl_prize":0.0,"jl_upper":67.14},{"mgr":"박미선","jisa":"현대홈 하남미사","fc":"박지예","code":"4MT098","type":"인브릿지대상","need":100.0,"design":10,"in_oct":10.3,"in_nov":0,"in_prize":0.0,"in_upper":89.7,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"박미선","jisa":"현대홈 용인","fc":"홍미정","code":"4RF263","type":"주력브릿지대상","need":44.14,"design":21,"in_oct":55.86,"in_nov":0,"in_prize":0.0,"in_upper":44.14,"jl_oct":55.86,"jl_nov":0,"jl_prize":0.0,"jl_upper":44.14},{"mgr":"장현화","jisa":"지에이스타금융서비스(주) 위드라이프코어지점","fc":"강은아","code":"4BIJ78","type":"주력브릿지대상","need":6.29,"design":16,"in_oct":93.71,"in_nov":0,"in_prize":0.0,"in_upper":6.29,"jl_oct":93.71,"jl_nov":0,"jl_prize":0.0,"jl_upper":6.29},{"mgr":"장현화","jisa":"프라임에셋(주)동탄2지점","fc":"김시내","code":"4BNW80","type":"주력브릿지대상","need":48.2,"design":33,"in_oct":151.8,"in_nov":0,"in_prize":200.0,"in_upper":48.2,"jl_oct":151.8,"jl_nov":0,"jl_prize":400.0,"jl_upper":48.2},{"mgr":"장현화","jisa":"더베스트 김효제 서수원","fc":"김미옥","code":"4AUC97","type":"주력브릿지대상","need":1.84,"design":17,"in_oct":98.16,"in_nov":0,"in_prize":0.0,"in_upper":1.84,"jl_oct":98.16,"jl_nov":0,"jl_prize":0.0,"jl_upper":1.84},{"mgr":"장현화","jisa":"한화생명금융서비스오산지점","fc":"최미연","code":"4QV520","type":"인브릿지대상","need":100.0,"design":6,"in_oct":108.3,"in_nov":0,"in_prize":200.0,"in_upper":91.7,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"장현화","jisa":"주식회사 디딤돌에셋","fc":"최진혁","code":"4NW478","type":"주력브릿지대상","need":70.64,"design":47,"in_oct":429.36,"in_nov":0,"in_prize":2000.0,"in_upper":70.64,"jl_oct":429.36,"jl_nov":0,"jl_prize":1600.0,"jl_upper":70.64},{"mgr":"장현화","jisa":"주식회사 디딤돌에셋","fc":"두영열","code":"4BBP68","type":"주력브릿지대상","need":60.81,"design":46,"in_oct":139.19,"in_nov":0,"in_prize":200.0,"in_upper":60.81,"jl_oct":139.19,"jl_nov":0,"jl_prize":400.0,"jl_upper":60.81},{"mgr":"김세희","jisa":"현대홈 빅트리","fc":"이순미","code":"4BDN38","type":"주력브릿지대상","need":45.54,"design":5,"in_oct":54.46,"in_nov":0,"in_prize":0.0,"in_upper":45.54,"jl_oct":54.46,"jl_nov":0,"jl_prize":0.0,"jl_upper":45.54},{"mgr":"김세희","jisa":"현대홈 위대한","fc":"손혜경","code":"4BNR82","type":"인브릿지대상","need":100.0,"design":23,"in_oct":18.43,"in_nov":0,"in_prize":0.0,"in_upper":81.57,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"김세희","jisa":"현대홈 위대한","fc":"김하나","code":"4AGH36","type":"인브릿지대상","need":100.0,"design":22,"in_oct":10.34,"in_nov":0,"in_prize":0.0,"in_upper":89.66,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"김세희","jisa":"현대홈 위대한","fc":"김찬욱","code":"4BRL89","type":"주력브릿지대상","need":67.25,"design":35,"in_oct":32.75,"in_nov":0,"in_prize":0.0,"in_upper":67.25,"jl_oct":32.75,"jl_nov":0,"jl_prize":0.0,"jl_upper":67.25},{"mgr":"김세희","jisa":"(주)인슈랜드","fc":"곽미연","code":"4Q3738","type":"인브릿지대상","need":100.0,"design":18,"in_oct":50.0,"in_nov":0,"in_prize":0.0,"in_upper":50.0,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"김세희","jisa":"더베스트 이재명 인천","fc":"성말례","code":"4AZZ89","type":"인브릿지대상","need":100.0,"design":59,"in_oct":20.48,"in_nov":0,"in_prize":0.0,"in_upper":79.52,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"김세희","jisa":"더베스트 김효제 청라","fc":"이진규","code":"4RB832","type":"주력브릿지대상","need":37.53,"design":8,"in_oct":62.47,"in_nov":0,"in_prize":0.0,"in_upper":37.53,"jl_oct":62.47,"jl_nov":0,"jl_prize":0.0,"jl_upper":37.53},{"mgr":"곽보미","jisa":"㈜트루 효명지점","fc":"김대흥","code":"4LA400","type":"주력브릿지대상","need":28.26,"design":11,"in_oct":71.74,"in_nov":0,"in_prize":0.0,"in_upper":28.26,"jl_oct":71.74,"jl_nov":0,"jl_prize":0.0,"jl_upper":28.26},{"mgr":"곽보미","jisa":"인슈프라자 전체","fc":"백수현","code":"4FR494","type":"인브릿지대상","need":100.0,"design":10,"in_oct":55.89,"in_nov":0,"in_prize":0.0,"in_upper":44.11,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"곽보미","jisa":"인슈프라자 전체","fc":"우현주","code":"4N8519","type":"인브릿지대상","need":100.0,"design":11,"in_oct":64.86,"in_nov":0,"in_prize":0.0,"in_upper":35.14,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"곽보미","jisa":"지에이코리아(주) 럭키지엠케이라이프지점","fc":"김메아리","code":"4BPH23","type":"주력브릿지대상","need":66.14,"design":28,"in_oct":33.86,"in_nov":0,"in_prize":0.0,"in_upper":66.14,"jl_oct":33.86,"jl_nov":0,"jl_prize":0.0,"jl_upper":66.14},{"mgr":"곽보미","jisa":"케이지에이에셋(주) 한우리지점","fc":"박종민","code":"4LP455","type":"주력브릿지대상","need":28.17,"design":23,"in_oct":171.83,"in_nov":0,"in_prize":200.0,"in_upper":28.17,"jl_oct":171.83,"jl_nov":0,"jl_prize":400.0,"jl_upper":28.17},{"mgr":"곽보미","jisa":"㈜트루 효명지점","fc":"김은숙","code":"4FL825","type":"주력브릿지대상","need":29.68,"design":7,"in_oct":170.32,"in_nov":0,"in_prize":200.0,"in_upper":29.68,"jl_oct":170.32,"jl_nov":0,"jl_prize":400.0,"jl_upper":29.68},{"mgr":"이슬","jisa":"현대홈 안산","fc":"조현경","code":"4BAN18","type":"주력브릿지대상","need":37.63,"design":8,"in_oct":62.37,"in_nov":0,"in_prize":0.0,"in_upper":37.63,"jl_oct":62.37,"jl_nov":0,"jl_prize":0.0,"jl_upper":37.63},{"mgr":"이슬","jisa":"더베스트 김효제 경기AS","fc":"유혜진","code":"4ARW16","type":"주력브릿지대상","need":98.5,"design":11,"in_oct":101.5,"in_nov":0,"in_prize":200.0,"in_upper":98.5,"jl_oct":101.5,"jl_nov":0,"jl_prize":400.0,"jl_upper":98.5},{"mgr":"이슬","jisa":"더베스트 김효제 경기AS","fc":"허주연","code":"4CDS33","type":"주력브릿지대상","need":3.93,"design":17,"in_oct":96.07,"in_nov":0,"in_prize":0.0,"in_upper":3.93,"jl_oct":96.07,"jl_nov":0,"jl_prize":0.0,"jl_upper":3.93},{"mgr":"김희선","jisa":"더금융서비스 명문지점","fc":"이주혁","code":"4SF817","type":"인브릿지대상","need":100.0,"design":6,"in_oct":55.88,"in_nov":0,"in_prize":0.0,"in_upper":44.12,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"김희선","jisa":"더금융서비스 명문지점","fc":"유미현","code":"4ATT09","type":"인브릿지대상","need":100.0,"design":6,"in_oct":10.0,"in_nov":0,"in_prize":0.0,"in_upper":90.0,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"김희선","jisa":"더금융서비스 명문지점","fc":"임미선","code":"4BFH95","type":"인브릿지대상","need":100.0,"design":23,"in_oct":65.6,"in_nov":0,"in_prize":0.0,"in_upper":34.4,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"김희선","jisa":"더금융서비스 명문지점","fc":"채승민","code":"4CBV98","type":"인브릿지대상","need":100.0,"design":77,"in_oct":210.0,"in_nov":0,"in_prize":800.0,"in_upper":90.0,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"김희선","jisa":"주식회사 마이금융파트너 넥스트지사","fc":"송정화","code":"4CFZ36","type":"주력브릿지대상","need":0.0,"design":4,"in_oct":634.66,"in_nov":0,"in_prize":3000.0,"in_upper":0.0,"jl_oct":579.27,"jl_nov":0,"jl_prize":2000.0,"jl_upper":0.0},{"mgr":"김희선","jisa":"지에이코리아(주) 새파랑다움지점","fc":"한선덕","code":"4SF406","type":"인브릿지대상","need":100.0,"design":3,"in_oct":43.46,"in_nov":0,"in_prize":0.0,"in_upper":56.54,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"김희선","jisa":"한화생명금융서비스평택지점","fc":"이형주","code":"4RD134","type":"인브릿지대상","need":100.0,"design":12,"in_oct":43.11,"in_nov":0,"in_prize":0.0,"in_upper":56.89,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"김희선","jisa":"더금융서비스 명문지점","fc":"곽진희","code":"4AIG38","type":"인브릿지대상","need":100.0,"design":8,"in_oct":31.0,"in_nov":0,"in_prize":0.0,"in_upper":69.0,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"김효진","jisa":"트루평택지점","fc":"안경숙","code":"4KY049","type":"인브릿지대상","need":100.0,"design":13,"in_oct":35.0,"in_nov":0,"in_prize":0.0,"in_upper":65.0,"jl_oct":0.0,"jl_nov":0,"jl_prize":0.0,"jl_upper":100.0},{"mgr":"김효진","jisa":"트루평택지점","fc":"유해숙","code":"48975E","type":"주력브릿지대상","need":90.84,"design":11,"in_oct":109.16,"in_nov":0,"in_prize":200.0,"in_upper":90.84,"jl_oct":109.16,"jl_nov":0,"jl_prize":400.0,"jl_upper":90.84},{"mgr":"김효진","jisa":"트루평택지점","fc":"이현옥","code":"40532F","type":"주력브릿지대상","need":41.19,"design":3,"in_oct":58.81,"in_nov":0,"in_prize":0.0,"in_upper":41.19,"jl_oct":58.81,"jl_nov":0,"jl_prize":0.0,"jl_upper":41.19},{"mgr":"김효진","jisa":"현대홈 동탄(송)","fc":"전소은","code":"4AKG97","type":"주력브릿지대상","need":69.25,"design":5,"in_oct":30.75,"in_nov":0,"in_prize":0.0,"in_upper":69.25,"jl_oct":30.75,"jl_nov":0,"jl_prize":0.0,"jl_upper":69.25},{"mgr":"김효진","jisa":"현대홈 화성","fc":"안성경","code":"4MI094","type":"주력브릿지대상","need":34.56,"design":28,"in_oct":265.44,"in_nov":0,"in_prize":800.0,"in_upper":34.56,"jl_oct":265.44,"jl_nov":0,"jl_prize":800.0,"jl_upper":34.56},{"mgr":"김효진","jisa":"신한금융플러스 주식회사 지에프송탄지점","fc":"정현주","code":"4ID737","type":"주력브릿지대상","need":81.81,"design":17,"in_oct":118.19,"in_nov":0,"in_prize":200.0,"in_upper":81.81,"jl_oct":118.19,"jl_nov":0,"jl_prize":400.0,"jl_upper":81.81},{"mgr":"김효진","jisa":"더베스트 이재명 고덕","fc":"설미애","code":"4DV018","type":"주력브릿지대상","need":92.02,"design":16,"in_oct":107.98,"in_nov":0,"in_prize":200.0,"in_upper":92.02,"jl_oct":107.98,"jl_nov":0,"jl_prize":400.0,"jl_upper":92.02},{"mgr":"김효진","jisa":"현대홈 오산","fc":"최은주","code":"4MP212","type":"주력브릿지대상","need":69.7,"design":11,"in_oct":30.3,"in_nov":0,"in_prize":0.0,"in_upper":69.7,"jl_oct":30.3,"jl_nov":0,"jl_prize":0.0,"jl_upper":69.7}];
 
-function showBridge() {
-  _brTypeTab  = 'all';
-  _brGroupTab = 'mgr';
+// ══════════════════════════════════════════════
+//  브릿지 관리 (리디자인: 진입화면 → 서브화면)
+// ══════════════════════════════════════════════
+const MGR_ORDER_BR=['김지혜','박미선','장현화','김세희','곽보미','이슬','김희선','김효진'];
+
+// 9-10월 상태 계산
+function _br910Status(d){
+  if(d.done==='달성') return 'done';
+  // 대상 유형에 따라 진행중 판단
+  const oct = d.type==='인브릿지대상' ? d.in_oct : d.jl_oct;
+  return oct>0 ? 'prog' : 'none';
+}
+
+// 10-11월 상태 계산
+function _br1011Status(d){
+  if(d.in_prize>0||d.jl_prize>0) return 'done';
+  if(d.in_oct>0||d.jl_oct>0) return 'prog';
+  return 'none';
+}
+
+const BR_STATUS={done:{txt:'달성',c:'#0a8c44'},prog:{txt:'진행중',c:'#e07800'},none:{txt:'미달성',c:'#cc3300'}};
+
+let _brSubMode = '910'; // '910' or '1011'
+let _br910TypeFilter='all'; // all / in / jl / nod
+let _br1011TypeFilter='all';
+let _brGroupMode='mgr'; // mgr / jisa
+
+// ── 진입화면 ──────────────────────────────────────────
+function showBridge(){
   showScreen('screen-bridge', _currentScreen());
-  _applyBridgeTabs();
-  renderBridge();
+  _renderBridgeEntry();
 }
 
-function setBridgeTypeTab(t) {
-  _brTypeTab = t;
-  _applyBridgeTabs();
-  renderBridge();
+function _brSummary(data, statusFn){
+  let done=0,prog=0;
+  data.forEach(d=>{ const s=statusFn(d); if(s==='done') done++; else if(s==='prog') prog++; });
+  const none=data.length-done-prog;
+  return {total:data.length,done,prog,none};
 }
 
-function setBridgeGroupTab(g) {
-  _brGroupTab = g;
-  _applyBridgeTabs();
-  renderBridge();
-}
-
-function _applyBridgeTabs() {
-  // type tabs
-  ['all','jl','in','nod'].forEach(t => {
-    const btn = document.getElementById('brtab-' + t);
-    if (!btn) return;
-    const on = t === _brTypeTab;
-    btn.style.background = on ? 'var(--primary)' : '#fff';
-    btn.style.color = on ? '#fff' : 'var(--text2)';
-    btn.style.borderColor = on ? 'var(--primary)' : 'var(--border)';
-    btn.style.boxShadow = on ? '0 2px 8px rgba(26,47,94,0.2)' : '';
-  });
-  // group tabs
-  ['mgr','gyeol','gyebo','jisa'].forEach(g => {
-    const btn = document.getElementById('brgp-' + g);
-    if (!btn) return;
-    const on = g === _brGroupTab;
-    btn.style.color = on ? 'var(--primary)' : 'var(--text2)';
-    btn.style.borderBottomColor = on ? 'var(--primary)' : 'transparent';
-  });
-}
-
-function _brFiltered() {
-  if (_brTypeTab === 'jl')  return BRIDGE_DATA.filter(d => d.type === '주력');
-  if (_brTypeTab === 'in')  return BRIDGE_DATA.filter(d => d.type === '인보험');
-  if (_brTypeTab === 'nod') return BRIDGE_DATA.filter(d => d.design === 0);
-  return BRIDGE_DATA;
-}
-
-function _brStatus(d) {
-  if (d.done) return 'done';
-  const sept = d.type === '인보험' ? d.in_sept : d.jl_sept;
-  return sept > 0 ? 'prog' : 'none';
-}
-
-function _brAug(d)  { return d.type === '인보험' ? d.in_aug  : d.jl_aug; }
-function _brSept(d) { return d.type === '인보험' ? d.in_sept : d.jl_sept; }
-
-const BR_STATUS = {
-  done: { txt:'달성',  color:'#0a8c44' },
-  prog: { txt:'진행중', color:'#e07800' },
-  none: { txt:'미달성', color:'#cc3300' },
-};
-
-function _brSummaryBar(data) {
-  const total = data.length;
-  const done = data.filter(d => _brStatus(d)==='done').length;
-  const prog = data.filter(d => _brStatus(d)==='prog').length;
-  const none = total - done - prog;
-  return [
-    {label:'전체',  val:total, c:'var(--primary)'},
-    {label:'달성',  val:done,  c:'#0a8c44'},
-    {label:'진행중', val:prog,  c:'#e07800'},
-    {label:'미달성', val:none,  c:'#cc3300'},
-  ].map(x=>`<div style="background:${x.c}18;border:1px solid ${x.c}44;border-radius:20px;padding:4px 12px;font-size:12px;color:${x.c};display:flex;gap:5px;align-items:center"><span style="font-size:15px">${x.val}</span><span>${x.label}</span></div>`).join('');
-}
-
-function _brGroupKey(d) {
-  if (_brGroupTab === 'mgr')   return d.mgr;
-  if (_brGroupTab === 'gyeol') return d.gyeol || '(미분류)';
-  if (_brGroupTab === 'gyebo') return d.gyebo || '(미분류)';
-  return d.jisa;
-}
-
-// 그룹 정렬 순서 (매니저는 고정 순서)
-const MGR_ORDER = ['김지혜','박미선','장현화','정지혜','김세희','곽보미','이슬','김희선','김효진'];
-
-function _brGroupOrder(keys) {
-  if (_brGroupTab === 'mgr') {
-    return MGR_ORDER.filter(m => keys.includes(m)).concat(keys.filter(k => !MGR_ORDER.includes(k)));
+function _renderBridgeEntry(){
+  const s910 = _brSummary(BRIDGE_910_DATA, _br910Status);
+  const s1011= _brSummary(BRIDGE_1011_DATA,_br1011Status);
+  function card(title,period,s,clickFn){
+    const pct=s.total>0?Math.round(s.done/s.total*100):0;
+    const bar=`<div style="display:flex;height:6px;border-radius:3px;overflow:hidden;margin:10px 0 4px;background:#eee">
+      <div style="width:${s.done/s.total*100}%;background:#0a8c44"></div>
+      <div style="width:${s.prog/s.total*100}%;background:#e07800"></div>
+    </div>`;
+    return `<div onclick="${clickFn}" style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:16px;margin:0 16px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;box-shadow:0 2px 8px rgba(0,0,0,0.06);transition:box-shadow 0.15s" ontouchstart="this.style.boxShadow='0 4px 16px rgba(26,47,94,0.14)'" ontouchend="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.06)'">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <div>
+          <div style="font-size:16px;color:var(--text);margin-bottom:2px">${title}</div>
+          <div style="font-size:12px;color:var(--text2)">${period}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:24px;color:var(--primary);line-height:1">${pct}%</div>
+          <div style="font-size:11px;color:var(--text2)">달성률</div>
+        </div>
+      </div>
+      ${bar}
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span style="font-size:12px;background:#f0f4ff;border-radius:10px;padding:3px 9px;color:var(--primary)">전체 ${s.total}명</span>
+        <span style="font-size:12px;background:#0a8c4418;border-radius:10px;padding:3px 9px;color:#0a8c44">달성 ${s.done}</span>
+        <span style="font-size:12px;background:#e0780018;border-radius:10px;padding:3px 9px;color:#e07800">진행중 ${s.prog}</span>
+        <span style="font-size:12px;background:#cc330018;border-radius:10px;padding:3px 9px;color:#cc3300">미달성 ${s.none}</span>
+      </div>
+      <div style="text-align:right;margin-top:10px">
+        <span style="font-size:12px;color:var(--primary)">대상 리스트 보기 ›</span>
+      </div>
+    </div>`;
   }
-  return [...keys].sort((a,b) => a.localeCompare(b, 'ko'));
+  document.getElementById('bridge-entry-cards').innerHTML=
+    card('9-10월 달성결과','9월 3주 ~ 10월 18일(종료)',s910,"showBridgeDetail('910')")+
+    card('10-11월 진도현황','10월 19일 ~ 11월 15일(진행중)',s1011,"showBridgeDetail('1011')");
 }
 
-function renderBridge() {
-  const data = _brFiltered();
+// ── 서브 화면 ──────────────────────────────────────────
+function showBridgeDetail(mode){
+  _brSubMode=mode;
+  if(mode==='910'){ _br910TypeFilter='all'; }
+  else{ _br1011TypeFilter='all'; }
+  _brGroupMode='mgr';
+  showScreen('screen-bridge-sub',_currentScreen());
+  _renderBridgeSub();
+}
 
-  // summary
-  const sb = document.getElementById('bridge-summary-bar');
-  if (sb) sb.innerHTML = _brSummaryBar(data);
+function _brSubData(){
+  return _brSubMode==='910' ? BRIDGE_910_DATA : BRIDGE_1011_DATA;
+}
+function _brSubStatusFn(){
+  return _brSubMode==='910' ? _br910Status : _br1011Status;
+}
+function _brSubTypeFilter(){
+  return _brSubMode==='910' ? _br910TypeFilter : _br1011TypeFilter;
+}
+function _brSubFiltered(){
+  const data=_brSubData(), tf=_brSubTypeFilter();
+  if(tf==='in')  return data.filter(d=>d.type==='인브릿지대상');
+  if(tf==='jl')  return data.filter(d=>d.type==='주력브릿지대상');
+  if(tf==='nod') return data.filter(d=>d.design===0);
+  return data;
+}
 
-  // group
-  const groups = {};
-  data.forEach(d => {
-    const k = _brGroupKey(d);
-    if (!groups[k]) groups[k] = [];
+function setBridgeSubTypeTab(t){
+  if(_brSubMode==='910') _br910TypeFilter=t; else _br1011TypeFilter=t;
+  _renderBridgeSub();
+}
+function setBridgeGroupMode(g){
+  _brGroupMode=g;
+  _renderBridgeSub();
+}
+
+function _renderBridgeSub(){
+  _brGroupFilters={};
+  const mode=_brSubMode;
+  const tf=_brSubTypeFilter();
+  const title=mode==='910'?'9-10월 달성결과':'10-11월 진도현황';
+  document.getElementById('bridge-sub-title').textContent=title;
+
+  // 타입 탭
+  ['all','in','jl','nod'].forEach(t=>{
+    const el=document.getElementById('brsub-tab-'+t);
+    if(!el) return;
+    const on=t===tf;
+    el.style.background=on?'var(--primary)':'#fff';
+    el.style.color=on?'#fff':'var(--text2)';
+    el.style.borderColor=on?'var(--primary)':'var(--border)';
+    el.style.boxShadow=on?'0 2px 8px rgba(26,47,94,0.2)':'';
+  });
+  // 그룹 탭
+  ['mgr','jisa'].forEach(g=>{
+    const el=document.getElementById('brsub-gp-'+g);
+    if(!el) return;
+    const on=g===_brGroupMode;
+    el.style.color=on?'var(--primary)':'var(--text2)';
+    el.style.borderBottomColor=on?'var(--primary)':'transparent';
+  });
+
+  const data=_brSubFiltered();
+  const statusFn=_brSubStatusFn();
+
+  // 요약 배지
+  const s=_brSummary(data,statusFn);
+  document.getElementById('bridge-sub-summary').innerHTML=[
+    {v:s.total,l:'전체',c:'var(--primary)'},
+    {v:s.done,l:'달성',c:'#0a8c44'},
+    {v:s.prog,l:'진행중',c:'#e07800'},
+    {v:s.none,l:'미달성',c:'#cc3300'},
+  ].map(x=>`<div style="background:${x.c}18;border:1px solid ${x.c}44;border-radius:20px;padding:4px 12px;font-size:12px;color:${x.c};display:flex;gap:5px;align-items:center"><span style="font-size:15px">${x.v}</span><span>${x.l}</span></div>`).join('');
+
+  // 그룹 구성
+  const groups={};
+  data.forEach(d=>{
+    const k=_brGroupMode==='mgr'?d.mgr:d.jisa;
+    if(!groups[k]) groups[k]=[];
     groups[k].push(d);
   });
-  const groupKeys = _brGroupOrder(Object.keys(groups));
+  const keys=Object.keys(groups);
+  const sortedKeys= _brGroupMode==='mgr'
+    ? MGR_ORDER_BR.filter(m=>keys.includes(m)).concat(keys.filter(k=>!MGR_ORDER_BR.includes(k)))
+    : [...keys].sort((a,b)=>a.localeCompare(b,'ko'));
 
-  const labelMap = {mgr:'매니저', gyeol:'본점', gyebo:'계열', jisa:'지사'};
+  const container=document.getElementById('bridge-sub-list');
+  if(!container) return;
 
-  const container = document.getElementById('bridge-fc-list');
-  if (!container) return;
+  const septLabel = mode==='910'?'9월':'—';
+  const octLabel  = mode==='910'?'10월':'10월말';
 
-  container.innerHTML = groupKeys.map(key => {
-    const list = groups[key];
-    const done = list.filter(d => _brStatus(d)==='done').length;
-    const prog = list.filter(d => _brStatus(d)==='prog').length;
-    const none = list.length - done - prog;
+  container.innerHTML=sortedKeys.map(key=>{
+    const list=groups[key];
+    const ds=list.filter(d=>statusFn(d)==='done').length;
+    const ps=list.filter(d=>statusFn(d)==='prog').length;
+    const ns=list.length-ds-ps;
 
-    // sort: 달성 → 진행중 → 미달성, 같은 상태 내 sept desc
-    const sorted = [...list].sort((a,b) => {
-      const sp = {done:0, prog:1, none:2};
-      const da = sp[_brStatus(a)], db = sp[_brStatus(b)];
-      if (da !== db) return da - db;
-      return _brSept(b) - _brSept(a);
+    const sorted=[...list].sort((a,b)=>{
+      const sp={done:0,prog:1,none:2};
+      const da=sp[statusFn(a)],db=sp[statusFn(b)];
+      if(da!==db) return da-db;
+      // 진행중/미달성은 10월 실적 내림차순
+      const ao=a.type==='인브릿지대상'?a.in_oct:a.jl_oct;
+      const bo=b.type==='인브릿지대상'?b.in_oct:b.jl_oct;
+      return bo-ao;
     });
 
-    const badges = [
-      done > 0 ? `<span style="background:#0a8c4418;border:1px solid #0a8c4444;border-radius:12px;padding:2px 7px;font-size:11px;color:#0a8c44">달성 ${done}</span>` : '',
-      prog > 0 ? `<span style="background:#e0780018;border:1px solid #e0780044;border-radius:12px;padding:2px 7px;font-size:11px;color:#e07800">진행 ${prog}</span>` : '',
-      none > 0 ? `<span style="background:#cc330018;border:1px solid #cc330044;border-radius:12px;padding:2px 7px;font-size:11px;color:#cc3300">미달성 ${none}</span>` : '',
+    const badges=[
+      ds>0?`<span style="background:#0a8c4418;border:1px solid #0a8c4444;border-radius:12px;padding:2px 7px;font-size:11px;color:#0a8c44">달성 ${ds}</span>`:'',
+      ps>0?`<span style="background:#e0780018;border:1px solid #e0780044;border-radius:12px;padding:2px 7px;font-size:11px;color:#e07800">진행 ${ps}</span>`:'',
+      ns>0?`<span style="background:#cc330018;border:1px solid #cc330044;border-radius:12px;padding:2px 7px;font-size:11px;color:#cc3300">미달성 ${ns}</span>`:'',
     ].filter(Boolean).join('');
 
-    // 보조 컨텍스트: 매니저 기준이면 jisa 표시, 지사 기준이면 매니저 표시, 그외 둘 다
-    const rows = sorted.map(d => {
-      const st = _brStatus(d);
-      const sc = BR_STATUS[st];
-      const aug  = _brAug(d);
-      const sept = _brSept(d);
-      const typeTag = `<span style="font-size:10px;padding:1px 5px;border-radius:10px;background:${d.type==='인보험'?'#1a4a9018':'#7c4dff18'};color:${d.type==='인보험'?'#1a4a90':'#7c4dff'}">${d.type}</span>`;
+    const rows=sorted.map(d=>{
+      const st=statusFn(d);
+      const sc=BR_STATUS[st];
+      const isIn=d.type==='인브릿지대상';
+      const typeColor=isIn?'#1a4a90':'#7c4dff';
+      const typeTag=`<span style="font-size:10px;padding:1px 6px;border-radius:10px;background:${typeColor}18;color:${typeColor};border:1px solid ${typeColor}33">${isIn?'인브릿지':'주력'}</span>`;
 
-      // sub-label: context info depending on group
-      let sub = '';
-      if (_brGroupTab === 'mgr')   sub = d.jisa;
-      else if (_brGroupTab === 'jisa') sub = d.mgr;
-      else sub = d.jisa;
+      // 금액 표시 (대상 유형에 따라 해당 브릿지 실적 표시)
+      let amtHtml='';
+      if(mode==='910'){
+        const s1=isIn?d.in_sept:d.jl_sept;
+        const s2=isIn?d.in_oct :d.jl_oct;
+        const rem=isIn?d.in_remain:d.jl_remain;
+        const doneStr=isIn?d.in_done:d.jl_done;
+        const s2c=s2>0?'var(--primary)':'var(--text3)';
+        const remStr=doneStr==='달성'
+          ? `<span style="color:#0a8c44;font-size:10px">달성!</span>`
+          : (rem>0?`<span style="color:#cc3300;font-size:10px">잔${rem.toFixed(1)}</span>`:'');
+        amtHtml=`<div style="font-size:12px;white-space:nowrap;text-align:right">
+          <span style="color:var(--text2)">${s1>0?s1.toFixed(1):'-'}</span>
+          <span style="color:var(--text3)">→</span>
+          <span style="color:${s2c}">${s2>0?s2.toFixed(1):'-'}</span>
+        </div>
+        <div style="text-align:right;margin-top:1px">${remStr}</div>`;
+      }else{
+        const oct=isIn?d.in_oct:d.jl_oct;
+        const prize=isIn?d.in_prize:d.jl_prize;
+        const upper=isIn?d.in_upper:d.jl_upper;
+        const octC=oct>0?'var(--primary)':'var(--text3)';
+        const prizeStr=prize>0?`<span style="color:#0a8c44;font-size:10px">시상${prize}</span>`:(upper>0?`<span style="color:#cc3300;font-size:10px">잔${upper.toFixed(1)}</span>`:'');
+        amtHtml=`<div style="font-size:12px;white-space:nowrap;text-align:right">
+          <span style="color:var(--text2);font-size:10px">필요</span>
+          <span style="color:var(--text2)">${d.need>0?d.need.toFixed(1):'-'}</span>
+          <span style="color:var(--text3)">|</span>
+          <span style="color:${octC}">${oct>0?oct.toFixed(1):'-'}</span>
+        </div>
+        <div style="text-align:right;margin-top:1px">${prizeStr}</div>`;
+      }
 
-      const activityTag = d.design > 0
-        ? `<span style="font-size:10px;padding:1px 5px;border-radius:10px;background:#f0f4ff;color:var(--text2);margin-left:4px">설계 ${d.design}</span>`
-        : `<span style="font-size:10px;padding:1px 5px;border-radius:10px;background:#cc330018;color:#cc3300;margin-left:4px;border:1px solid #cc330044">활동전</span>`;
+      const designTag=d.design>0
+        ?`<span style="font-size:10px;padding:1px 5px;border-radius:10px;background:#f0f4ff;color:var(--text2);margin-left:3px">설계${d.design}</span>`
+        :`<span style="font-size:10px;padding:1px 5px;border-radius:10px;background:#cc330018;color:#cc3300;margin-left:3px;border:1px solid #cc330044">활동전</span>`;
+
+      const sub=_brGroupMode==='mgr'?d.jisa:d.mgr;
 
       return `<div style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--border)">
         <div style="flex:1;min-width:0">
-          <div style="font-size:14px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center">${d.fc}${activityTag}</div>
+          <div style="font-size:14px;color:var(--text);display:flex;align-items:center;flex-wrap:wrap;gap:3px">${d.fc}${designTag}</div>
           <div style="font-size:11px;color:var(--text2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${sub}</div>
         </div>
-        <div style="text-align:right;min-width:0;flex-shrink:0">
-          <div style="font-size:12px;color:var(--text2);white-space:nowrap">
-            <span style="color:var(--text)">${aug > 0 ? aug.toFixed(1) : '-'}</span>
-            <span style="color:var(--text3)"> → </span>
-            <span style="color:${sept>0?'var(--primary)':'var(--text3)'}">${sept > 0 ? sept.toFixed(1) : '-'}</span>
-          </div>
-          <div style="font-size:10px;color:var(--text3);text-align:right">8월 → 9월</div>
-        </div>
-        <div style="min-width:48px;text-align:center;flex-shrink:0">${typeTag}<br><span style="font-size:12px;color:${sc.color}">${sc.txt}</span></div>
+        <div style="min-width:0;flex-shrink:0">${amtHtml}</div>
+        <div style="min-width:50px;text-align:center;flex-shrink:0">${typeTag}<br><span style="font-size:12px;color:${sc.c}">${sc.txt}</span></div>
       </div>`;
     }).join('');
 
-    const gid = 'brg-' + key.replace(/\s+/g,'_') + '-' + Math.random().toString(36).slice(2,6);
-
+    const gid='brsg-'+key.replace(/[^a-zA-Z0-9가-힣]/g,'_');
+    _brGroupFilters[gid]={q:'',status:'all'};
+    _brGroupData[gid]={sorted,statusFn};
+    const filterCtrl=`<div style="padding:8px 12px;background:var(--bg2);border-bottom:1px solid var(--border)"><input id="${gid}-q" type="text" placeholder="이름·지사 검색..." oninput="filterBrGroup('${gid}')" style="width:100%;box-sizing:border-box;padding:7px 12px;border-radius:16px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-size:13px;outline:none;font-family:var(--font-body)"><div style="display:flex;gap:4px;margin-top:6px;flex-wrap:wrap"><button id="${gid}-st-all" onclick="setBrGroupStatus('${gid}','all')" style="padding:3px 9px;border-radius:14px;border:1.5px solid var(--primary);background:var(--primary);color:#fff;font-size:11px;font-family:var(--font-body);cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(26,47,94,0.2)">전체 ${list.length}</button><button id="${gid}-st-done" onclick="setBrGroupStatus('${gid}','done')" style="padding:3px 9px;border-radius:14px;border:1.5px solid var(--border);background:#fff;color:var(--text2);font-size:11px;font-family:var(--font-body);cursor:pointer;white-space:nowrap">달성 ${ds}</button><button id="${gid}-st-prog" onclick="setBrGroupStatus('${gid}','prog')" style="padding:3px 9px;border-radius:14px;border:1.5px solid var(--border);background:#fff;color:var(--text2);font-size:11px;font-family:var(--font-body);cursor:pointer;white-space:nowrap">진행중 ${ps}</button><button id="${gid}-st-none" onclick="setBrGroupStatus('${gid}','none')" style="padding:3px 9px;border-radius:14px;border:1.5px solid var(--border);background:#fff;color:var(--text2);font-size:11px;font-family:var(--font-body);cursor:pointer;white-space:nowrap">미달성 ${ns}</button></div></div>`;
     return `<div style="margin-bottom:10px">
-      <div onclick="toggleBrGroup('${gid}')" style="background:var(--bg2);padding:10px 12px;border-radius:10px;display:flex;align-items:center;gap:8px;border:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none">
+      <div onclick="toggleBrSubGroup('${gid}')" style="background:var(--bg2);padding:10px 12px;border-radius:10px;display:flex;align-items:center;gap:8px;border:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none">
         <div style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
           <span style="font-size:14px;color:var(--text)">${key}</span>
           <span style="font-size:12px;color:var(--text2)">${list.length}명</span>
@@ -3049,29 +3124,110 @@ function renderBridge() {
         </div>
         <svg id="${gid}-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;transition:transform 0.2s"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
-      <div id="${gid}" style="display:none;background:var(--card-bg);border:1px solid var(--border);border-top:none;border-radius:0 0 10px 10px;overflow:hidden">${rows}</div>
+      <div id="${gid}" style="display:none;background:var(--card-bg);border:1px solid var(--border);border-top:none;border-radius:0 0 10px 10px;overflow:hidden">${filterCtrl}<div id="${gid}-rows">${rows}</div></div>
     </div>`;
   }).join('');
 }
 
-function toggleBrGroup(gid) {
-  const panel = document.getElementById(gid);
-  const chev  = document.getElementById(gid + '-chev');
-  if (!panel) return;
-  const open = panel.style.display === 'none';
-  panel.style.display = open ? 'block' : 'none';
-  if (chev) chev.style.transform = open ? 'rotate(180deg)' : '';
-  // 열릴 때 border-radius 조정
-  const header = panel.previousElementSibling;
-  if (header) header.style.borderRadius = open ? '10px 10px 0 0' : '10px';
+function toggleBrSubGroup(gid){
+  const panel=document.getElementById(gid);
+  const chev=document.getElementById(gid+'-chev');
+  if(!panel) return;
+  const open=panel.style.display==='none';
+  panel.style.display=open?'block':'none';
+  if(chev) chev.style.transform=open?'rotate(180deg)':'';
+  const hdr=panel.previousElementSibling;
+  if(hdr) hdr.style.borderRadius=open?'10px 10px 0 0':'10px';
+  if(open){
+    if(!_brGroupFilters[gid]) _brGroupFilters[gid]={q:'',status:'all'};
+    else{ _brGroupFilters[gid].q=''; _brGroupFilters[gid].status='all'; }
+    const qi=document.getElementById(gid+'-q');
+    if(qi) qi.value='';
+    _renderBrGroupRows(gid);
+  }
 }
 
 
+// ── 브릿지 그룹별 검색/상태 필터 ───────────────────────────────────────
+let _brGroupFilters={};
+let _brGroupData={};
+
+function filterBrGroup(gid){
+  if(!_brGroupFilters[gid]) _brGroupFilters[gid]={q:'',status:'all'};
+  const qi=document.getElementById(gid+'-q');
+  _brGroupFilters[gid].q=qi?qi.value:'';
+  _renderBrGroupRows(gid);
+}
+function setBrGroupStatus(gid,s){
+  if(!_brGroupFilters[gid]) _brGroupFilters[gid]={q:'',status:'all'};
+  _brGroupFilters[gid].status=s;
+  _renderBrGroupRows(gid);
+}
+function _renderBrGroupRows(gid){
+  const entry=_brGroupData[gid];
+  if(!entry) return;
+  const {sorted,statusFn}=entry;
+  const flt=_brGroupFilters[gid]||{q:'',status:'all'};
+  const q=(flt.q||'').trim();
+  const mode=_brSubMode;
+  // apply search (case-insensitive Korean included)
+  const allQ=sorted.filter(d=>!q||(d.fc.includes(q)||d.jisa.includes(q)||d.mgr.includes(q)));
+  const dCnt=allQ.filter(d=>statusFn(d)==='done').length;
+  const pCnt=allQ.filter(d=>statusFn(d)==='prog').length;
+  const nCnt=allQ.filter(d=>statusFn(d)==='none').length;
+  // update status tab labels + active state
+  [{id:'all',cnt:allQ.length,txt:'전체'},{id:'done',cnt:dCnt,txt:'달성'},{id:'prog',cnt:pCnt,txt:'진행중'},{id:'none',cnt:nCnt,txt:'미달성'}].forEach(x=>{
+    const btn=document.getElementById(gid+'-st-'+x.id);
+    if(!btn) return;
+    const on=flt.status===x.id;
+    btn.textContent=x.txt+' '+x.cnt;
+    btn.style.background=on?'var(--primary)':'#fff';
+    btn.style.color=on?'#fff':'var(--text2)';
+    btn.style.borderColor=on?'var(--primary)':'var(--border)';
+    btn.style.boxShadow=on?'0 2px 8px rgba(26,47,94,0.2)':'';
+  });
+  const filtered=allQ.filter(d=>flt.status==='all'||statusFn(d)===flt.status);
+  const container=document.getElementById(gid+'-rows');
+  if(!container) return;
+  if(!filtered.length){
+    container.innerHTML='<div style="padding:20px;text-align:center;color:var(--text3);font-size:13px">검색 결과 없음</div>';
+    return;
+  }
+  container.innerHTML=filtered.map(d=>{
+    const st=statusFn(d);
+    const sc=BR_STATUS[st];
+    const isIn=d.type==='인브릿지대상';
+    const typeColor=isIn?'#1a4a90':'#7c4dff';
+    const typeTag=`<span style="font-size:10px;padding:1px 6px;border-radius:10px;background:${typeColor}18;color:${typeColor};border:1px solid ${typeColor}33">${isIn?'인브릿지':'주력'}</span>`;
+    let amtHtml='';
+    if(mode==='910'){
+      const s1=isIn?d.in_sept:d.jl_sept;
+      const s2=isIn?d.in_oct:d.jl_oct;
+      const rem=isIn?d.in_remain:d.jl_remain;
+      const doneStr=isIn?d.in_done:d.jl_done;
+      const s2c=s2>0?'var(--primary)':'var(--text3)';
+      const remStr=doneStr==='달성'?`<span style="color:#0a8c44;font-size:10px">달성!</span>`:(rem>0?`<span style="color:#cc3300;font-size:10px">잔${rem.toFixed(1)}</span>`:'');
+      amtHtml=`<div style="font-size:12px;white-space:nowrap;text-align:right"><span style="color:var(--text2)">${s1>0?s1.toFixed(1):'-'}</span><span style="color:var(--text3)">→</span><span style="color:${s2c}">${s2>0?s2.toFixed(1):'-'}</span></div><div style="text-align:right;margin-top:1px">${remStr}</div>`;
+    }else{
+      const oct=isIn?d.in_oct:d.jl_oct;
+      const prize=isIn?d.in_prize:d.jl_prize;
+      const upper=isIn?d.in_upper:d.jl_upper;
+      const octC=oct>0?'var(--primary)':'var(--text3)';
+      const prizeStr=prize>0?`<span style="color:#0a8c44;font-size:10px">시상${prize}</span>`:(upper>0?`<span style="color:#cc3300;font-size:10px">잔${upper.toFixed(1)}</span>`:'');
+      amtHtml=`<div style="font-size:12px;white-space:nowrap;text-align:right"><span style="color:var(--text2);font-size:10px">필요</span><span style="color:var(--text2)">${d.need>0?d.need.toFixed(1):'-'}</span><span style="color:var(--text3)">|</span><span style="color:${octC}">${oct>0?oct.toFixed(1):'-'}</span></div><div style="text-align:right;margin-top:1px">${prizeStr}</div>`;
+    }
+    const designTag=d.design>0?`<span style="font-size:10px;padding:1px 5px;border-radius:10px;background:#f0f4ff;color:var(--text2);margin-left:3px">설계${d.design}</span>`:`<span style="font-size:10px;padding:1px 5px;border-radius:10px;background:#cc330018;color:#cc3300;margin-left:3px;border:1px solid #cc330044">활동전</span>`;
+    const sub=_brGroupMode==='mgr'?d.jisa:d.mgr;
+    return `<div style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--border)"><div style="flex:1;min-width:0"><div style="font-size:14px;color:var(--text);display:flex;align-items:center;flex-wrap:wrap;gap:3px">${d.fc}${designTag}</div><div style="font-size:11px;color:var(--text2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${sub}</div></div><div style="min-width:0;flex-shrink:0">${amtHtml}</div><div style="min-width:50px;text-align:center;flex-shrink:0">${typeTag}<br><span style="font-size:12px;color:${sc.c}">${sc.txt}</span></div></div>`;
+  }).join('');
+}
+
 // ─── Init ───
 renderHome();
+
 </script>
 
-<!-- ===================== 브릿지 관리 화면 ===================== -->
+<!-- ===================== 브릿지 관리 진입화면 ===================== -->
 <div id="screen-bridge" class="screen hidden">
   <div class="header">
     <button class="back-btn" onclick="goHome()">‹</button>
@@ -3080,24 +3236,37 @@ renderHome();
       <button onclick="goHome()" style="background:rgba(255,255,255,0.18);border:none;border-radius:8px;padding:4px 8px;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center" title="메인화면"><svg width="16" height="16" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
     </div>
   </div>
-  <!-- 요약 배지 -->
-  <div id="bridge-summary-bar" style="display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px 0"></div>
-  <!-- 유형 탭 (전체/주력/인보험) -->
-  <div style="display:flex;gap:6px;padding:10px 16px 0;flex-wrap:wrap" id="bridge-type-tabs">
-    <button id="brtab-all" onclick="setBridgeTypeTab('all')" style="padding:5px 14px;border-radius:20px;border:1.5px solid var(--primary);background:var(--primary);color:#fff;font-size:13px;font-family:var(--font-body);cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(26,47,94,0.2)">전체</button>
-    <button id="brtab-jl"  onclick="setBridgeTypeTab('jl')"  style="padding:5px 14px;border-radius:20px;border:1.5px solid var(--border);background:#fff;color:var(--text2);font-size:13px;font-family:var(--font-body);cursor:pointer;white-space:nowrap">주력브릿지</button>
-    <button id="brtab-in"  onclick="setBridgeTypeTab('in')"  style="padding:5px 14px;border-radius:20px;border:1.5px solid var(--border);background:#fff;color:var(--text2);font-size:13px;font-family:var(--font-body);cursor:pointer;white-space:nowrap">인보험브릿지</button>
-    <button id="brtab-nod" onclick="setBridgeTypeTab('nod')" style="padding:5px 14px;border-radius:20px;border:1.5px solid var(--border);background:#fff;color:var(--text2);font-size:13px;font-family:var(--font-body);cursor:pointer;white-space:nowrap">미설계</button>
+  <div class="scroll-body">
+    <div style="padding:16px 0 0;font-size:13px;color:var(--text2);padding-left:16px;margin-bottom:4px">진행 기간을 선택하세요</div>
+    <div id="bridge-entry-cards"></div>
   </div>
-  <!-- 조회기준 탭 (매니저/본점/계열/지사) -->
-  <div style="display:flex;border-bottom:1.5px solid var(--border);padding:6px 16px 0;gap:0" id="bridge-group-tabs">
-    <button id="brgp-mgr"   onclick="setBridgeGroupTab('mgr')"   style="flex:1;padding:8px 4px;border:none;background:none;font-size:13px;font-family:var(--font-body);cursor:pointer;color:var(--primary);border-bottom:2.5px solid var(--primary);margin-bottom:-1.5px">매니저</button>
-    <button id="brgp-gyeol" onclick="setBridgeGroupTab('gyeol')" style="flex:1;padding:8px 4px;border:none;background:none;font-size:13px;font-family:var(--font-body);cursor:pointer;color:var(--text2);border-bottom:2.5px solid transparent;margin-bottom:-1.5px">본점</button>
-    <button id="brgp-gyebo" onclick="setBridgeGroupTab('gyebo')" style="flex:1;padding:8px 4px;border:none;background:none;font-size:13px;font-family:var(--font-body);cursor:pointer;color:var(--text2);border-bottom:2.5px solid transparent;margin-bottom:-1.5px">계열</button>
-    <button id="brgp-jisa"  onclick="setBridgeGroupTab('jisa')"  style="flex:1;padding:8px 4px;border:none;background:none;font-size:13px;font-family:var(--font-body);cursor:pointer;color:var(--text2);border-bottom:2.5px solid transparent;margin-bottom:-1.5px">지사</button>
+</div>
+
+<!-- ===================== 브릿지 관리 서브화면 ===================== -->
+<div id="screen-bridge-sub" class="screen hidden">
+  <div class="header">
+    <button class="back-btn" onclick="showBridge()">‹</button>
+    <h1 id="bridge-sub-title">9-10월 달성결과</h1>
+    <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+      <button onclick="goHome()" style="background:rgba(255,255,255,0.18);border:none;border-radius:8px;padding:4px 8px;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center" title="메인화면"><svg width="16" height="16" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
+    </div>
+  </div>
+  <!-- 요약 배지 -->
+  <div id="bridge-sub-summary" style="display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px 0"></div>
+  <!-- 유형 탭 -->
+  <div style="display:flex;gap:6px;padding:10px 16px 0;flex-wrap:wrap">
+    <button id="brsub-tab-all" onclick="setBridgeSubTypeTab('all')" style="padding:5px 12px;border-radius:20px;border:1.5px solid var(--primary);background:var(--primary);color:#fff;font-size:13px;font-family:var(--font-body);cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(26,47,94,0.2)">전체</button>
+    <button id="brsub-tab-in"  onclick="setBridgeSubTypeTab('in')"  style="padding:5px 12px;border-radius:20px;border:1.5px solid var(--border);background:#fff;color:var(--text2);font-size:13px;font-family:var(--font-body);cursor:pointer;white-space:nowrap">인브릿지</button>
+    <button id="brsub-tab-jl"  onclick="setBridgeSubTypeTab('jl')"  style="padding:5px 12px;border-radius:20px;border:1.5px solid var(--border);background:#fff;color:var(--text2);font-size:13px;font-family:var(--font-body);cursor:pointer;white-space:nowrap">주력브릿지</button>
+    <button id="brsub-tab-nod" onclick="setBridgeSubTypeTab('nod')" style="padding:5px 12px;border-radius:20px;border:1.5px solid var(--border);background:#fff;color:var(--text2);font-size:13px;font-family:var(--font-body);cursor:pointer;white-space:nowrap">미설계</button>
+  </div>
+  <!-- 조회기준 탭 -->
+  <div style="display:flex;border-bottom:1.5px solid var(--border);padding:6px 16px 0;gap:0">
+    <button id="brsub-gp-mgr"  onclick="setBridgeGroupMode('mgr')"  style="flex:1;padding:8px 4px;border:none;background:none;font-size:13px;font-family:var(--font-body);cursor:pointer;color:var(--primary);border-bottom:2.5px solid var(--primary);margin-bottom:-1.5px">매니저</button>
+    <button id="brsub-gp-jisa" onclick="setBridgeGroupMode('jisa')" style="flex:1;padding:8px 4px;border:none;background:none;font-size:13px;font-family:var(--font-body);cursor:pointer;color:var(--text2);border-bottom:2.5px solid transparent;margin-bottom:-1.5px">지사</button>
   </div>
   <div class="scroll-body" style="padding-top:0">
-    <div id="bridge-fc-list" style="padding:0 16px 80px"></div>
+    <div id="bridge-sub-list" style="padding:0 16px 80px"></div>
   </div>
 </div>
 
