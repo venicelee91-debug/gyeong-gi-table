@@ -1101,7 +1101,7 @@ function renderGroupList(groups, field) {
 
   // Sort bar for list screen
   const sorts = [
-    {key:'m10',label:'10월↓'},{key:'d1',label:'D-1일↓'},{key:'m8',label:'8월↓'},{key:'avg_h1',label:'상반기avg↓'},
+    {key:'m10',label:'10월↓'},{key:'d1',label:'D-1일↓'},{key:'m8',label:'9월↓'},{key:'avg_h1',label:'상반기avg↓'},
     {key:'jindo',label:'진도↓'},{key:'sokdo',label:'속도↓'},
     {key:'par9',label:'인참여↓'},{key:'p59',label:'인5만↓'},{key:'p209',label:'인20만↓'},
   ];
@@ -1310,7 +1310,7 @@ function pctClass(n) {
 
 function renderJisaSortBar() {
   const sorts = [
-    {key:'m10',label:'10월↓'},{key:'d1',label:'D-1일↓'},{key:'m8',label:'8월↓'},{key:'avg_h1',label:'상반기avg↓'},
+    {key:'m10',label:'10월↓'},{key:'d1',label:'D-1일↓'},{key:'m8',label:'9월↓'},{key:'avg_h1',label:'상반기avg↓'},
     {key:'jindo',label:'진도↓'},{key:'sokdo',label:'속도↓'},
     {key:'par9',label:'인참여↓'},{key:'p59',label:'인5만↓'},{key:'p209',label:'인20만↓'},
   ];
@@ -1708,7 +1708,7 @@ function showFcList(sortKey) {
   const sortBtns = [
     {k:'m10',     label:'10월↓',       type:'normal'},
     {k:'d1',     label:'D-1일↓',     type:'normal'},
-    {k:'m8',     label:'8월↓',       type:'normal'},
+    {k:'m8',     label:'9월↓',       type:'normal'},
     {k:'h1',     label:'5~7월평균↓', type:'normal'},
     {k:'touch',  label:'터치대상',    type:'touch'},
     {k:'p5near', label:'인5만근접',   type:'p5near'},
@@ -2770,7 +2770,7 @@ function renderSmgrDetail(m, smgrIdx) {
       <input type="text" id="smgr-branch-search-${smgrIdx}" placeholder="🔍 지사명 검색..." oninput="filterSmgrBranches(${smgrIdx}, this.value)" style="flex:1;min-width:120px;padding:9px 14px;border:1.5px solid var(--border);border-radius:20px;background:var(--bg);color:var(--text);font-size:15px;outline:none;font-family:var(--font-body);line-height:1.5">
       <div style="display:flex;gap:6px;flex-shrink:0">
         <button onclick="sortSmgrBranches(${smgrIdx},'m10')" id="smgr-sort-m10-${smgrIdx}" style="padding:5px 12px;border-radius:20px;border:1.5px solid ${sortKey==='m10'?'var(--primary)':'var(--border)'};background:${sortKey==='m10'?'var(--primary)':'#fff'};color:${sortKey==='m10'?'#fff':'var(--text2)'};font-size:13px;font-family:var(--font-body);white-space:nowrap;cursor:pointer;transition:all 0.15s;flex-shrink:0${sortKey==='m10'?';box-shadow:0 2px 8px rgba(26,47,94,0.2)':''}">9월↓</button>
-        <button onclick="sortSmgrBranches(${smgrIdx},'m8')" id="smgr-sort-m8-${smgrIdx}" style="padding:5px 12px;border-radius:20px;border:1.5px solid ${sortKey==='m8'?'var(--primary)':'var(--border)'};background:${sortKey==='m8'?'var(--primary)':'#fff'};color:${sortKey==='m8'?'#fff':'var(--text2)'};font-size:13px;font-family:var(--font-body);white-space:nowrap;cursor:pointer;transition:all 0.15s;flex-shrink:0${sortKey==='m8'?';box-shadow:0 2px 8px rgba(26,47,94,0.2)':''}">8월↓</button>
+        <button onclick="sortSmgrBranches(${smgrIdx},'m8')" id="smgr-sort-m8-${smgrIdx}" style="padding:5px 12px;border-radius:20px;border:1.5px solid ${sortKey==='m8'?'var(--primary)':'var(--border)'};background:${sortKey==='m8'?'var(--primary)':'#fff'};color:${sortKey==='m8'?'#fff':'var(--text2)'};font-size:13px;font-family:var(--font-body);white-space:nowrap;cursor:pointer;transition:all 0.15s;flex-shrink:0${sortKey==='m8'?';box-shadow:0 2px 8px rgba(26,47,94,0.2)':''}">9월↓</button>
         <button onclick="sortSmgrBranches(${smgrIdx},'d1')" id="smgr-sort-d1-${smgrIdx}" style="padding:5px 12px;border-radius:20px;border:1.5px solid ${sortKey==='d1'?'var(--primary)':'var(--border)'};background:${sortKey==='d1'?'var(--primary)':'#fff'};color:${sortKey==='d1'?'#fff':'var(--text2)'};font-size:13px;font-family:var(--font-body);white-space:nowrap;cursor:pointer;transition:all 0.15s;flex-shrink:0${sortKey==='d1'?';box-shadow:0 2px 8px rgba(26,47,94,0.2)':''}">D-1↓</button>
         <button onclick="sortSmgrBranches(${smgrIdx},'q2')" id="smgr-sort-q2-${smgrIdx}" style="padding:5px 12px;border-radius:20px;border:1.5px solid ${sortKey==='q2'?'var(--primary)':'var(--border)'};background:${sortKey==='q2'?'var(--primary)':'#fff'};color:${sortKey==='q2'?'#fff':'var(--text2)'};font-size:13px;font-family:var(--font-body);white-space:nowrap;cursor:pointer;transition:all 0.15s;flex-shrink:0${sortKey==='q2'?';box-shadow:0 2px 8px rgba(26,47,94,0.2)':''}">2분기↓</button>
       </div>
