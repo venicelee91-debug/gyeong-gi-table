@@ -3027,7 +3027,7 @@ function _renderBridgeSub(){
   const keys=Object.keys(groups);
   const sortedKeys= _brGroupMode==='mgr'
     ? MGR_ORDER_BR.filter(m=>keys.includes(m)).concat(keys.filter(k=>!MGR_ORDER_BR.includes(k)))
-    : [...keys].sort((a,b)=>a.localeCompare(b,'ko'));
+    : [...keys].sort((a,b)=>groups[b].length-groups[a].length);
 
   const container=document.getElementById('bridge-sub-list');
   if(!container) return;
@@ -3049,7 +3049,8 @@ function _renderBridgeSub(){
   const septLabel = mode==='910'?'9월':'—';
   const octLabel  = mode==='910'?'10월':'10월말';
 
-  container.innerHTML=sortedKeys.map(key=>{
+  const _is1011Grid = mode==='1011';
+  const _cards=sortedKeys.map(key=>{
     const list=groups[key];
     const ds=list.filter(d=>statusFn(d)==='done').length;
     const ps=list.filter(d=>statusFn(d)==='prog').length;
@@ -3071,24 +3072,25 @@ function _renderBridgeSub(){
       ns>0?`<span style="background:#cc330018;border:1px solid #cc330044;border-radius:12px;padding:2px 7px;font-size:11px;color:#cc3300">미달성 ${ns}</span>`:'',
     ].filter(Boolean).join('');
 
+    const nearCnt=mode==='1011'?list.filter(d=>(d.in_upper>0&&d.in_upper<50)||(d.jl_upper>0&&d.jl_upper<50)).length:0;
+
     const rows=sorted.map(d=>_brRowHtml(d,statusFn,mode)).join('');
 
     const gid='brsg-'+key.replace(/[^a-zA-Z0-9가-힣]/g,'_');
     _brGroupFilters[gid]={q:'',status:'all'};
     _brGroupData[gid]={sorted,statusFn};
-    const filterCtrl=`<div style="padding:8px 12px;background:var(--bg2);border-bottom:1px solid var(--border)"><input id="${gid}-q" type="text" placeholder="이름·지사 검색..." oninput="filterBrGroup('${gid}')" style="width:100%;box-sizing:border-box;padding:7px 12px;border-radius:16px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-size:13px;outline:none;font-family:var(--font-body)"><div style="display:flex;gap:4px;margin-top:6px;flex-wrap:wrap"><button id="${gid}-st-all" onclick="setBrGroupStatus('${gid}','all')" style="padding:3px 9px;border-radius:14px;border:1.5px solid var(--primary);background:var(--primary);color:#fff;font-size:11px;font-family:var(--font-body);cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(26,47,94,0.2)">전체 ${list.length}</button><button id="${gid}-st-done" onclick="setBrGroupStatus('${gid}','done')" style="padding:3px 9px;border-radius:14px;border:1.5px solid var(--border);background:#fff;color:var(--text2);font-size:11px;font-family:var(--font-body);cursor:pointer;white-space:nowrap">달성 ${ds}</button><button id="${gid}-st-prog" onclick="setBrGroupStatus('${gid}','prog')" style="padding:3px 9px;border-radius:14px;border:1.5px solid var(--border);background:#fff;color:var(--text2);font-size:11px;font-family:var(--font-body);cursor:pointer;white-space:nowrap">진행중 ${ps}</button><button id="${gid}-st-none" onclick="setBrGroupStatus('${gid}','none')" style="padding:3px 9px;border-radius:14px;border:1.5px solid var(--border);background:#fff;color:var(--text2);font-size:11px;font-family:var(--font-body);cursor:pointer;white-space:nowrap">미달성 ${ns}</button></div></div>`;
-    return `<div style="margin-bottom:10px">
-      <div onclick="toggleBrSubGroup('${gid}')" style="background:var(--bg2);padding:10px 12px;border-radius:10px;display:flex;align-items:center;gap:8px;border:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none">
-        <div style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-          <span style="font-size:14px;color:var(--text)">${key}</span>
-          <span style="font-size:12px;color:var(--text2)">${list.length}명</span>
-          <div style="display:flex;gap:4px;flex-wrap:wrap">${badges}</div>
-        </div>
-        <svg id="${gid}-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;transition:transform 0.2s"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
+    const _cardHdrStyle=_is1011Grid?'background:var(--card-bg);border-radius:18px;padding:20px 14px 16px;box-shadow:0 2px 16px rgba(26,47,94,0.09);cursor:pointer;border:1.5px solid var(--border);transition:all 0.18s;text-align:center;position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent;user-select:none':'background:var(--bg2);padding:10px 12px;border-radius:10px;display:flex;align-items:center;gap:8px;border:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none';
+    const _cardInner=_is1011Grid?`<div style="font-size:15px;color:var(--text);margin-bottom:8px;line-height:1.3">${key}</div><div style="display:inline-flex;align-items:center;background:var(--bg);color:var(--primary);border-radius:20px;padding:3px 12px;font-size:12px;border:1px solid var(--border);margin-bottom:8px">${list.length}명</div>${nearCnt>0?`<div style="font-size:11px;color:#e07800;background:#e0780015;border:1px solid #e0780040;border-radius:14px;padding:2px 10px;display:inline-block;margin-bottom:8px">근접 ${nearCnt}명</div>`:'​'}<div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center">${badges}</div><svg id="${gid}-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;bottom:8px;right:10px;transition:transform 0.2s"><polyline points="6 9 12 15 18 9"/></svg>`:`<div style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-size:14px;color:var(--text)">${key}</span><span style="font-size:12px;color:var(--text2)">${list.length}명</span><div style="display:flex;gap:4px;flex-wrap:wrap">${badges}</div></div><svg id="${gid}-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;transition:transform 0.2s"><polyline points="6 9 12 15 18 9"/></svg>`;
+    const filterCtrl=`<div style="padding:8px 12px;background:var(--bg2);border-bottom:1px solid var(--border)"><input id="${gid}-q" type="text" placeholder="이름·지사 검색..." oninput="filterBrGroup('${gid}')" style="width:100%;box-sizing:border-box;padding:7px 12px;border-radius:16px;border:1.5px solid var(--border);background:#fff;color:var(--text);font-size:13px;outline:none;font-family:var(--font-body);box-shadow:0 1px 6px rgba(0,0,0,0.07)"><div style="display:flex;gap:4px;margin-top:6px;flex-wrap:wrap"><button id="${gid}-st-all" onclick="setBrGroupStatus('${gid}','all')" style="padding:3px 9px;border-radius:14px;border:1.5px solid var(--primary);background:var(--primary);color:#fff;font-size:11px;font-family:var(--font-body);cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(26,47,94,0.2)">전체 ${list.length}</button><button id="${gid}-st-done" onclick="setBrGroupStatus('${gid}','done')" style="padding:3px 9px;border-radius:14px;border:1.5px solid var(--border);background:#fff;color:var(--text2);font-size:11px;font-family:var(--font-body);cursor:pointer;white-space:nowrap">달성 ${ds}</button><button id="${gid}-st-prog" onclick="setBrGroupStatus('${gid}','prog')" style="padding:3px 9px;border-radius:14px;border:1.5px solid var(--border);background:#fff;color:var(--text2);font-size:11px;font-family:var(--font-body);cursor:pointer;white-space:nowrap">진행중 ${ps}</button><button id="${gid}-st-none" onclick="setBrGroupStatus('${gid}','none')" style="padding:3px 9px;border-radius:14px;border:1.5px solid var(--border);background:#fff;color:var(--text2);font-size:11px;font-family:var(--font-body);cursor:pointer;white-space:nowrap">미달성 ${ns}</button></div></div>`;
+    const _wrapStyle=_is1011Grid?'position:relative':'margin-bottom:10px';
+    return `<div id="${gid}-wrap" style="${_wrapStyle}">
+      <div onclick="toggleBrSubGroup('${gid}')" ontouchstart="if(this.style.borderRadius==='18px')this.style.transform='scale(0.97)'" ontouchend="this.style.transform=''" style="${_cardHdrStyle}">${_cardInner}</div>
       <div id="${gid}" style="display:none;background:var(--card-bg);border:1px solid var(--border);border-top:none;border-radius:0 0 10px 10px;overflow:hidden">${filterCtrl}<div id="${gid}-rows">${rows}</div></div>
     </div>`;
-  }).join('');
+  });
+  container.innerHTML=_is1011Grid
+    ?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:4px 0">${_cards.join('')}</div>`
+    :_cards.join('');
 }
 
 function toggleBrSubGroup(gid){
@@ -3098,6 +3100,12 @@ function toggleBrSubGroup(gid){
   const open=panel.style.display==='none';
   panel.style.display=open?'block':'none';
   if(chev) chev.style.transform=open?'rotate(180deg)':'';
+  // 1011 그리드 모드: 펼칠 때 2열 전체 차지
+  const wrap=document.getElementById(gid+'-wrap');
+  if(wrap && wrap.parentElement && wrap.parentElement.style.gridTemplateColumns){
+    wrap.style.gridColumn=open?'1 / -1':'';
+    wrap.style.marginBottom=open?'0':'';
+  }
   const hdr=panel.previousElementSibling;
   if(hdr) hdr.style.borderRadius=open?'10px 10px 0 0':'10px';
   if(open){
@@ -3188,7 +3196,7 @@ function _brRowHtml(d,statusFn,mode){
   }
   const designTag=d.design>0?`<span style="font-size:10px;padding:1px 5px;border-radius:10px;background:#f0f4ff;color:var(--text2);margin-left:3px">설계${d.design}</span>`:`<span style="font-size:10px;padding:1px 5px;border-radius:10px;background:#cc330018;color:#cc3300;margin-left:3px;border:1px solid #cc330044">활동전</span>`;
   const sub=_brGroupMode==='mgr'?d.jisa:d.mgr;
-  return `<div style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--border)"><div style="${mode==='1011'?'flex:0 0 auto;max-width:38%;min-width:0;overflow:hidden':'flex:1;min-width:0'}"><div style="font-size:14px;color:var(--text);display:flex;align-items:center;flex-wrap:wrap;gap:3px">${d.fc}${designTag}</div><div style="font-size:11px;color:var(--text2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${sub}</div></div><div style="min-width:0;flex-shrink:0">${amtHtml}</div><div style="min-width:50px;text-align:center;flex-shrink:0">${typeTag}<br><span style="font-size:12px;color:${sc.c}">${sc.txt}</span></div></div>`;
+  return `<div style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--border)"><div style="${mode==='1011'?'flex:0 0 auto;max-width:38%;min-width:0;overflow:hidden':'flex:1;min-width:0'}"><div style="font-size:14px;color:var(--text);display:flex;align-items:center;flex-wrap:wrap;gap:3px">${d.fc}${designTag}</div><div style="font-size:11px;color:var(--text2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${sub}</div></div><div style="min-width:0;flex-shrink:0;margin-left:auto">${amtHtml}</div><div style="min-width:50px;text-align:center;flex-shrink:0">${typeTag}<br><span style="font-size:12px;color:${sc.c}">${sc.txt}</span></div></div>`;
 }
 
 // ─── Init ───
@@ -3223,7 +3231,7 @@ renderHome();
   <!-- 전체 검색바 -->
   <div style="padding:10px 16px 0">
     <div style="position:relative">
-      <input id="br-sub-search" type="text" placeholder="이름·지사·매니저 검색..." oninput="setBrSearch(this.value)" style="width:100%;box-sizing:border-box;padding:9px 14px 9px 36px;border-radius:20px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-size:14px;outline:none;font-family:var(--font-body)">
+      <input id="br-sub-search" type="text" placeholder="이름·지사·매니저 검색..." oninput="setBrSearch(this.value)" style="width:100%;box-sizing:border-box;padding:9px 14px 9px 36px;border-radius:20px;border:1.5px solid var(--border);background:#fff;color:var(--text);font-size:14px;outline:none;font-family:var(--font-body);box-shadow:0 1px 6px rgba(0,0,0,0.07)">
       <svg style="position:absolute;left:12px;top:50%;transform:translateY(-50%);pointer-events:none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     </div>
   </div>
