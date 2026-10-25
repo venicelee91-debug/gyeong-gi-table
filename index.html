@@ -2945,6 +2945,7 @@ function _renderBridgeEntry(){
 // ── 서브 화면 ──────────────────────────────────────────
 function showBridgeDetail(mode){
   _brSubMode=mode;
+  _brSearch='';
   if(mode==='910'){ _br910TypeFilter='all'; }
   else{ _br1011TypeFilter='all'; }
   _brGroupMode='mgr';
@@ -3031,6 +3032,20 @@ function _renderBridgeSub(){
   const container=document.getElementById('bridge-sub-list');
   if(!container) return;
 
+  // 전체 검색 동기화 + early return
+  {
+    const bsEl=document.getElementById('br-sub-search');
+    if(bsEl) bsEl.value=_brSearch;
+    const srQ=(_brSearch||'').trim();
+    if(srQ){
+      const matched=data.filter(d=>d.fc.includes(srQ)||d.jisa.includes(srQ)||d.mgr.includes(srQ));
+      container.innerHTML=matched.length
+        ?'<div style="padding:8px 2px 4px;font-size:12px;color:var(--text2)">'+matched.length+'명 검색됨</div>'+matched.map(d=>_brRowHtml(d,statusFn,mode)).join('')
+        :'<div style="padding:30px;text-align:center;color:var(--text3);font-size:14px">검색 결과 없음</div>';
+      return;
+    }
+  }
+
   const septLabel = mode==='910'?'9월':'—';
   const octLabel  = mode==='910'?'10월':'10월말';
 
@@ -3056,60 +3071,7 @@ function _renderBridgeSub(){
       ns>0?`<span style="background:#cc330018;border:1px solid #cc330044;border-radius:12px;padding:2px 7px;font-size:11px;color:#cc3300">미달성 ${ns}</span>`:'',
     ].filter(Boolean).join('');
 
-    const rows=sorted.map(d=>{
-      const st=statusFn(d);
-      const sc=BR_STATUS[st];
-      const isIn=d.type==='인브릿지대상';
-      const typeColor=isIn?'#1a4a90':'#7c4dff';
-      const typeTag=`<span style="font-size:10px;padding:1px 6px;border-radius:10px;background:${typeColor}18;color:${typeColor};border:1px solid ${typeColor}33">${isIn?'인브릿지':'주력'}</span>`;
-
-      // 금액 표시 (대상 유형에 따라 해당 브릿지 실적 표시)
-      let amtHtml='';
-      if(mode==='910'){
-        const s1=isIn?d.in_sept:d.jl_sept;
-        const s2=isIn?d.in_oct :d.jl_oct;
-        const rem=isIn?d.in_remain:d.jl_remain;
-        const doneStr=isIn?d.in_done:d.jl_done;
-        const s2c=s2>0?'var(--primary)':'var(--text3)';
-        const remStr=doneStr==='달성'
-          ? `<span style="color:#0a8c44;font-size:10px">달성!</span>`
-          : (rem>0?`<span style="color:#cc3300;font-size:10px">잔${rem.toFixed(1)}</span>`:'');
-        amtHtml=`<div style="font-size:12px;white-space:nowrap;text-align:right">
-          <span style="color:var(--text2)">${s1>0?s1.toFixed(1):'-'}</span>
-          <span style="color:var(--text3)">→</span>
-          <span style="color:${s2c}">${s2>0?s2.toFixed(1):'-'}</span>
-        </div>
-        <div style="text-align:right;margin-top:1px">${remStr}</div>`;
-      }else{
-        const oct=isIn?d.in_oct:d.jl_oct;
-        const prize=isIn?d.in_prize:d.jl_prize;
-        const upper=isIn?d.in_upper:d.jl_upper;
-        const octC=oct>0?'var(--primary)':'var(--text3)';
-        const prizeStr=prize>0?`<span style="color:#0a8c44;font-size:10px">시상${prize}</span>`:(upper>0?`<span style="color:#cc3300;font-size:10px">잔${upper.toFixed(1)}</span>`:'');
-        amtHtml=`<div style="font-size:12px;white-space:nowrap;text-align:right">
-          <span style="color:var(--text2);font-size:10px">필요</span>
-          <span style="color:var(--text2)">${d.need>0?d.need.toFixed(1):'-'}</span>
-          <span style="color:var(--text3)">|</span>
-          <span style="color:${octC}">${oct>0?oct.toFixed(1):'-'}</span>
-        </div>
-        <div style="text-align:right;margin-top:1px">${prizeStr}</div>`;
-      }
-
-      const designTag=d.design>0
-        ?`<span style="font-size:10px;padding:1px 5px;border-radius:10px;background:#f0f4ff;color:var(--text2);margin-left:3px">설계${d.design}</span>`
-        :`<span style="font-size:10px;padding:1px 5px;border-radius:10px;background:#cc330018;color:#cc3300;margin-left:3px;border:1px solid #cc330044">활동전</span>`;
-
-      const sub=_brGroupMode==='mgr'?d.jisa:d.mgr;
-
-      return `<div style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--border)">
-        <div style="flex:1;min-width:0">
-          <div style="font-size:14px;color:var(--text);display:flex;align-items:center;flex-wrap:wrap;gap:3px">${d.fc}${designTag}</div>
-          <div style="font-size:11px;color:var(--text2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${sub}</div>
-        </div>
-        <div style="min-width:0;flex-shrink:0">${amtHtml}</div>
-        <div style="min-width:50px;text-align:center;flex-shrink:0">${typeTag}<br><span style="font-size:12px;color:${sc.c}">${sc.txt}</span></div>
-      </div>`;
-    }).join('');
+    const rows=sorted.map(d=>_brRowHtml(d,statusFn,mode)).join('');
 
     const gid='brsg-'+key.replace(/[^a-zA-Z0-9가-힣]/g,'_');
     _brGroupFilters[gid]={q:'',status:'all'};
@@ -3193,33 +3155,40 @@ function _renderBrGroupRows(gid){
     container.innerHTML='<div style="padding:20px;text-align:center;color:var(--text3);font-size:13px">검색 결과 없음</div>';
     return;
   }
-  container.innerHTML=filtered.map(d=>{
-    const st=statusFn(d);
-    const sc=BR_STATUS[st];
-    const isIn=d.type==='인브릿지대상';
-    const typeColor=isIn?'#1a4a90':'#7c4dff';
-    const typeTag=`<span style="font-size:10px;padding:1px 6px;border-radius:10px;background:${typeColor}18;color:${typeColor};border:1px solid ${typeColor}33">${isIn?'인브릿지':'주력'}</span>`;
-    let amtHtml='';
-    if(mode==='910'){
-      const s1=isIn?d.in_sept:d.jl_sept;
-      const s2=isIn?d.in_oct:d.jl_oct;
-      const rem=isIn?d.in_remain:d.jl_remain;
-      const doneStr=isIn?d.in_done:d.jl_done;
-      const s2c=s2>0?'var(--primary)':'var(--text3)';
-      const remStr=doneStr==='달성'?`<span style="color:#0a8c44;font-size:10px">달성!</span>`:(rem>0?`<span style="color:#cc3300;font-size:10px">잔${rem.toFixed(1)}</span>`:'');
-      amtHtml=`<div style="font-size:12px;white-space:nowrap;text-align:right"><span style="color:var(--text2)">${s1>0?s1.toFixed(1):'-'}</span><span style="color:var(--text3)">→</span><span style="color:${s2c}">${s2>0?s2.toFixed(1):'-'}</span></div><div style="text-align:right;margin-top:1px">${remStr}</div>`;
-    }else{
-      const oct=isIn?d.in_oct:d.jl_oct;
-      const prize=isIn?d.in_prize:d.jl_prize;
-      const upper=isIn?d.in_upper:d.jl_upper;
-      const octC=oct>0?'var(--primary)':'var(--text3)';
-      const prizeStr=prize>0?`<span style="color:#0a8c44;font-size:10px">시상${prize}</span>`:(upper>0?`<span style="color:#cc3300;font-size:10px">잔${upper.toFixed(1)}</span>`:'');
-      amtHtml=`<div style="font-size:12px;white-space:nowrap;text-align:right"><span style="color:var(--text2);font-size:10px">필요</span><span style="color:var(--text2)">${d.need>0?d.need.toFixed(1):'-'}</span><span style="color:var(--text3)">|</span><span style="color:${octC}">${oct>0?oct.toFixed(1):'-'}</span></div><div style="text-align:right;margin-top:1px">${prizeStr}</div>`;
-    }
-    const designTag=d.design>0?`<span style="font-size:10px;padding:1px 5px;border-radius:10px;background:#f0f4ff;color:var(--text2);margin-left:3px">설계${d.design}</span>`:`<span style="font-size:10px;padding:1px 5px;border-radius:10px;background:#cc330018;color:#cc3300;margin-left:3px;border:1px solid #cc330044">활동전</span>`;
-    const sub=_brGroupMode==='mgr'?d.jisa:d.mgr;
-    return `<div style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--border)"><div style="flex:1;min-width:0"><div style="font-size:14px;color:var(--text);display:flex;align-items:center;flex-wrap:wrap;gap:3px">${d.fc}${designTag}</div><div style="font-size:11px;color:var(--text2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${sub}</div></div><div style="min-width:0;flex-shrink:0">${amtHtml}</div><div style="min-width:50px;text-align:center;flex-shrink:0">${typeTag}<br><span style="font-size:12px;color:${sc.c}">${sc.txt}</span></div></div>`;
-  }).join('');
+  container.innerHTML=filtered.map(d=>_brRowHtml(d,statusFn,mode)).join('');
+}
+
+
+// ── 브릿지 공통 행 렌더러 ─────────────────────────────────────────────
+let _brSearch='';
+function setBrSearch(q){
+  _brSearch=q;
+  _renderBridgeSub();
+}
+function _brRowHtml(d,statusFn,mode){
+  const st=statusFn(d);
+  const sc=BR_STATUS[st];
+  const isIn=d.type==='인브릿지대상';
+  const typeColor=isIn?'#1a4a90':'#7c4dff';
+  const typeTag=`<span style="font-size:10px;padding:1px 6px;border-radius:10px;background:${typeColor}18;color:${typeColor};border:1px solid ${typeColor}33">${isIn?'인브릿지':'주력'}</span>`;
+  let amtHtml='';
+  if(mode==='910'){
+    const s1=isIn?d.in_sept:d.jl_sept;
+    const s2=isIn?d.in_oct:d.jl_oct;
+    const rem=isIn?d.in_remain:d.jl_remain;
+    const doneStr=isIn?d.in_done:d.jl_done;
+    const s2c=s2>0?'var(--primary)':'var(--text3)';
+    const remStr=doneStr==='달성'?`<span style="color:#0a8c44;font-size:10px">달성!</span>`:(rem>0?`<span style="color:#cc3300;font-size:10px">잔${rem.toFixed(1)}</span>`:'');
+    amtHtml=`<div style="font-size:12px;white-space:nowrap;text-align:right"><span style="color:var(--text2)">${s1>0?s1.toFixed(1):'-'}</span><span style="color:var(--text3)">→</span><span style="color:${s2c}">${s2>0?s2.toFixed(1):'-'}</span></div><div style="text-align:right;margin-top:1px">${remStr}</div>`;
+  }else{
+    // 10-11월: 인브릿지 + 주력브릿지 듀얼 테이블
+    const inC=d.in_oct>0?'var(--primary)':'var(--text3)';
+    const jlC=d.jl_oct>0?'var(--primary)':'var(--text3)';
+    amtHtml=`<table style="font-size:9px;border-collapse:collapse;line-height:1.5"><tr><td style="padding:1px 5px 2px 0;font-size:8px;color:var(--text3)"></td><td style="padding:1px 5px 2px;text-align:right;font-size:8px;color:var(--text3)">10월</td><td style="padding:1px 5px 2px;text-align:right;font-size:8px;color:var(--text3)">시상금</td><td style="padding:1px 0 2px;text-align:right;font-size:8px;color:var(--text3)">잔여</td></tr><tr><td style="padding:1px 5px 0 0;color:#1a4a90;font-size:9px;white-space:nowrap">인</td><td style="padding:1px 5px 0;text-align:right;color:${inC}">${d.in_oct>0?d.in_oct.toFixed(1):'-'}</td><td style="padding:1px 5px 0;text-align:right;color:${d.in_prize>0?'#0a8c44':'var(--text3)'}">${d.in_prize>0?d.in_prize.toLocaleString():'—'}</td><td style="padding:1px 0 0;text-align:right;color:${d.in_upper>0?'#cc3300':'var(--text3)'}">${d.in_upper>0?d.in_upper.toFixed(1):'0'}</td></tr><tr><td style="padding:0 5px 0 0;color:#7c4dff;font-size:9px;white-space:nowrap">주</td><td style="padding:0 5px;text-align:right;color:${jlC}">${d.jl_oct>0?d.jl_oct.toFixed(1):'-'}</td><td style="padding:0 5px;text-align:right;color:${d.jl_prize>0?'#0a8c44':'var(--text3)'}">${d.jl_prize>0?d.jl_prize.toLocaleString():'—'}</td><td style="padding:0;text-align:right;color:${d.jl_upper>0?'#cc3300':'var(--text3)'}">${d.jl_upper>0?d.jl_upper.toFixed(1):'0'}</td></tr></table>`;
+  }
+  const designTag=d.design>0?`<span style="font-size:10px;padding:1px 5px;border-radius:10px;background:#f0f4ff;color:var(--text2);margin-left:3px">설계${d.design}</span>`:`<span style="font-size:10px;padding:1px 5px;border-radius:10px;background:#cc330018;color:#cc3300;margin-left:3px;border:1px solid #cc330044">활동전</span>`;
+  const sub=_brGroupMode==='mgr'?d.jisa:d.mgr;
+  return `<div style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--border)"><div style="flex:1;min-width:0"><div style="font-size:14px;color:var(--text);display:flex;align-items:center;flex-wrap:wrap;gap:3px">${d.fc}${designTag}</div><div style="font-size:11px;color:var(--text2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${sub}</div></div><div style="min-width:0;flex-shrink:0">${amtHtml}</div><div style="min-width:50px;text-align:center;flex-shrink:0">${typeTag}<br><span style="font-size:12px;color:${sc.c}">${sc.txt}</span></div></div>`;
 }
 
 // ─── Init ───
@@ -3249,6 +3218,13 @@ renderHome();
     <h1 id="bridge-sub-title">9-10월 달성결과</h1>
     <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
       <button onclick="goHome()" style="background:rgba(255,255,255,0.18);border:none;border-radius:8px;padding:4px 8px;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center" title="메인화면"><svg width="16" height="16" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
+    </div>
+  </div>
+  <!-- 전체 검색바 -->
+  <div style="padding:10px 16px 0">
+    <div style="position:relative">
+      <input id="br-sub-search" type="text" placeholder="이름·지사·매니저 검색..." oninput="setBrSearch(this.value)" style="width:100%;box-sizing:border-box;padding:9px 14px 9px 36px;border-radius:20px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-size:14px;outline:none;font-family:var(--font-body)">
+      <svg style="position:absolute;left:12px;top:50%;transform:translateY(-50%);pointer-events:none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     </div>
   </div>
   <!-- 요약 배지 -->
