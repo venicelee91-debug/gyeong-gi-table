@@ -729,23 +729,37 @@ tr.open > td { border-top: 2px solid var(--primary) !important; }
       <div class="home-summary" id="home-summary-stats"></div>
     </div>
     <div style="padding: 12px 16px 6px;">
-      <div style="font-size:16px; font-weight:400; font-family:'JalnanGothicTTF', sans-serif; color:var(--text2); margin-bottom:8px; line-height:1.45;">📋 기준 선택</div>
+      <div style="font-size:16px; font-weight:400; font-family:'JalnanGothicTTF', sans-serif; color:var(--text2); margin-bottom:8px; line-height:1.45;">📋 실적조회</div>
       <div class="criteria-grid" id="criteria-grid"></div>
     </div>
-    <div style="padding: 6px 16px 80px;">
-      <div style="font-size:16px; font-weight:400; font-family:'JalnanGothicTTF', sans-serif; color:var(--text2); margin-bottom:8px; line-height:1.45;">📊 추가 분석</div>
+    <!-- ── 매니저현황 섹션 ── -->
+    <div style="padding: 6px 16px 0;">
+      <div style="font-size:16px; font-weight:400; font-family:'JalnanGothicTTF', sans-serif; color:var(--text2); margin-bottom:8px; line-height:1.45;">👔 매니저현황</div>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-        <div class="criteria-card" onclick="showPfList()">
-          <div class="icon">📊</div>
-          <div class="name">지사 포트폴리오</div>
-          <div class="desc" style="font-size:12px;">상품군별 실적 분석</div>
-          <div style="margin-top:8px; font-size:13px; font-weight:400; color:var(--primary);">80개 지사</div>
-        </div>
         <div class="criteria-card" onclick="showSupportMgr()">
           <div class="icon">🎯</div>
           <div class="name">설계지원현황</div>
           <div class="desc" style="font-size:12px;">매니저별 설계 현황</div>
           <div style="margin-top:8px; font-size:13px; font-weight:400; color:var(--primary);">9명 매니저</div>
+        </div>
+        <div class="criteria-card" onclick="openHwansan()">
+          <div class="icon">👥</div>
+          <div class="name">환산인원관리</div>
+          <div class="desc" style="font-size:12px;">유실적 환산인원 현황</div>
+          <div style="margin-top:8px; font-size:13px; font-weight:400; color:var(--primary);">총 415.5명 · 323명 유실적</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 기타현황 섹션 ── -->
+    <div style="padding: 6px 16px 80px;">
+      <div style="font-size:16px; font-weight:400; font-family:'JalnanGothicTTF', sans-serif; color:var(--text2); margin-bottom:8px; line-height:1.45;">📋 기타 현황</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div class="criteria-card" onclick="showPfList()">
+          <div class="icon">💎</div>
+          <div class="name">하이캡현황</div>
+          <div class="desc" style="font-size:12px;">상품포트폴리오 현황</div>
+          <div style="margin-top:8px; font-size:13px; font-weight:400; color:var(--primary);" id="hicap-card-stat">지점 평균 11.3배</div>
         </div>
         <div class="criteria-card" onclick="showBridge()">
           <div class="icon">🌉</div>
@@ -849,7 +863,7 @@ tr.open > td { border-top: 2px solid var(--primary) !important; }
 <div id="screen-pf-list" class="screen hidden">
   <div class="header">
     <button class="back-btn" onclick="goHome()">‹</button>
-    <h1>지사 포트폴리오 <span class="badge" style="font-size:11px">78</span></h1>
+    <h1>하이캡현황 <span class="badge" style="font-size:11px">78</span></h1>
     <button onclick="goHome()" style="background:rgba(255,255,255,0.18);border:none;border-radius:8px;padding:4px 8px;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center" title="메인화면"><svg width="16" height="16" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
   </div>
   <div class="search-wrap">
@@ -1008,6 +1022,15 @@ function renderHome() {
     { key:'fc', icon:'👨‍💼', name:'설계사기준', cnt: FC_DATA.length + '명', top3: top3AllFc },
     { key:'touch', icon:'⚡', name:'터치대상', cnt: touchTargets.length + '개', top3: [...touchTargets].sort((a,b)=>(b.avg_h1||0)-(a.avg_h1||0)).slice(0,3).map(b=>({name:b.jisa,m10:b.m10})), cls:'touch-card' },
   ];
+  // 하이캡배수 동적 업데이트
+  const hicapEl = document.getElementById('hicap-card-stat');
+  if (hicapEl) {
+    const validMults = MGMT_DATA.filter(m => m.mult > 0).map(m => m.mult);
+    const avgMult = validMults.length ? (validMults.reduce((s,v)=>s+v,0)/validMults.length).toFixed(1) : '0.0';
+    const maxMult = validMults.length ? Math.max(...validMults).toFixed(1) : '0.0';
+    hicapEl.textContent = '지점평균 ' + avgMult + '배 · 최고 ' + maxMult + '배';
+  }
+
   document.getElementById('criteria-grid').innerHTML = criteria.map(c => `
     <div class="criteria-card ${c.cls||''}" onclick="selectCriteria('${c.key}')">
       <div class="crit-inner" style="display:flex;gap:10px;align-items:flex-start">
@@ -3326,5 +3349,30 @@ renderHome();
   </div>
 </div>
 
+
+<!-- ── 환산인원관리 오버레이 ── -->
+<div id="hwansan-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:var(--bg);">
+  <div style="position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--primary);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+    <button onclick="closeHwansan()" style="all:unset;cursor:pointer;padding:4px 12px;border-radius:8px;background:rgba(255,255,255,0.18);color:#fff;font-size:14px;font-family:var(--font-body);">‹ 닫기</button>
+    <span style="font-family:'JalnanGothicTTF',sans-serif;font-size:15px;">👥 환산인원관리</span>
+  </div>
+  <iframe id="hwansan-frame" src="" style="width:100%;height:calc(100dvh - 48px);border:none;display:block;"></iframe>
+</div>
+
+<script>
+function openHwansan(){
+  const ov=document.getElementById('hwansan-overlay');
+  const fr=document.getElementById('hwansan-frame');
+  if(!fr.src||fr.src==='about:blank'||fr.src===''){fr.src='./hwansan.html';}
+  ov.style.display='block';
+  document.body.style.overflow='hidden';
+}
+function closeHwansan(){
+  document.getElementById('hwansan-overlay').style.display='none';
+  document.body.style.overflow='';
+}
+// ESC 키로 닫기
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeHwansan();});
+</script>
 </body>
 </html>
