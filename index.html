@@ -3367,25 +3367,11 @@ function openHwansan(){
   if(!fr._loaded){
     fr._loaded=true;
     try{
-      if(location.protocol==='file:'){
-        // 로컬 파일: Blob URL 방식
-        const s=atob(_HW_B64);
-        const a=new Uint8Array(s.length);
-        for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);
-        fr.src=URL.createObjectURL(new Blob([a],{type:'text/html;charset=utf-8'}));
-      } else {
-        // HTTP/HTTPS 서버(Vercel 등): 직접 로드
-        fr.src='./hwansan.html';
-      }
-    }catch(e){
-      // 폴백: Blob URL
-      try{
-        const s=atob(_HW_B64);
-        const a=new Uint8Array(s.length);
-        for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);
-        fr.src=URL.createObjectURL(new Blob([a],{type:'text/html;charset=utf-8'}));
-      }catch(e2){console.error('hwansan load err',e2);}
-    }
+      const s=atob(_HW_B64);
+      const a=new Uint8Array(s.length);
+      for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);
+      fr.src=URL.createObjectURL(new Blob([a],{type:'text/html;charset=utf-8'}));
+    }catch(e){console.error('hwansan load err',e);}
   }
   ov.style.display='block';
   document.body.style.overflow='hidden';
