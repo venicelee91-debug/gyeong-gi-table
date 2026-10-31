@@ -3368,19 +3368,14 @@ function openHwansan(){
     fr._loaded=true;
     try{
       const s=atob(_HW_B64);
+      const bytes=new Uint8Array(s.length);
+      for(let i=0;i<s.length;i++)bytes[i]=s.charCodeAt(i);
+      const text=new TextDecoder('utf-8').decode(bytes);
       const doc=fr.contentDocument||fr.contentWindow.document;
       doc.open();
-      doc.write(s);
+      doc.write(text);
       doc.close();
-    }catch(e){
-      // fallback: Blob URL
-      try{
-        const s2=atob(_HW_B64);
-        const a=new Uint8Array(s2.length);
-        for(let i=0;i<s2.length;i++)a[i]=s2.charCodeAt(i);
-        fr.src=URL.createObjectURL(new Blob([a],{type:'text/html;charset=utf-8'}));
-      }catch(e2){console.error('hwansan load err',e2);}
-    }
+    }catch(e){console.error('hwansan load err',e);}
   }
   ov.style.display='block';
   document.body.style.overflow='hidden';
